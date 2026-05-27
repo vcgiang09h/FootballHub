@@ -2,6 +2,7 @@ package giangvc.cntt.ntu.footballhub.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -80,10 +81,18 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser != null) {
+                            // Lưu thông tin vào Firestore chạy ngầm
                             saveUserToFirestore(firebaseUser.getUid(), email);
                         }
+                        // Thông báo và chuyển màn hình ngay sau khi tạo tài khoản thành công
+                        Toast.makeText(RegisterActivity.this, "Đăng ký tài khoản thành công!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                        finish();
                     } else {
-                        Toast.makeText(RegisterActivity.this, "Đăng ký thất bại: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Exception e = task.getException();
+                        Log.e("FIREBASE_AUTH", "Register failed", e);
+                        String msg = (e != null) ? e.getMessage() : "Unknown error";
+                        Toast.makeText(RegisterActivity.this, "Đăng ký thất bại: " + msg, Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -94,13 +103,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         db.collection("Users").document(uid).set(newUser)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(RegisterActivity.this, "Đăng ký tài khoản thành công!", Toast.LENGTH_SHORT).show();
-                    // Chuyển sang MainActivity
-                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                    finish();
+                    Log.d("FIRESTORE", "User saved successfully: " + uid);
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(RegisterActivity.this, "Lỗi lưu database: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("FIRESTORE", "Failed to save user to Firestore", e);
                 });
     }
 }
