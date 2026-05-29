@@ -12,14 +12,15 @@
 
 *Một số hình ảnh ứng dụng*
 
-Trang đăng nhập:
+Trang đăng nhập/Đăng ký:
 
 ![alt text](https://github.com/user-attachments/assets/c5c6f8dd-a8f5-4947-8cd8-8d3ace4979bd)
-
----
-
-Trang đăng ký:
-
 ![alt text](https://github.com/user-attachments/assets/31d72af6-bbb3-4dc1-a8df-523d936506a1)
 
 ---
+Trang chủ:
+
+![alt text](https://github.com/user-attachments/assets/a454c3f2-1a33-4d04-9357-44ee68f3c205)
+
+---
+
