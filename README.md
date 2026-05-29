@@ -15,16 +15,14 @@
 
 Trang đăng nhập/Đăng ký:
 
-![alt text](https://github.com/user-attachments/assets/c5c6f8dd-a8f5-4947-8cd8-8d3ace4979bd)
-![alt text](https://github.com/user-attachments/assets/31d72af6-bbb3-4dc1-a8df-523d936506a1)
-
 <img width="467" height="983" alt="image" src="https://github.com/user-attachments/assets/e768f048-a605-4306-834e-7cb023ec1120" />
 <img width="473" height="981" alt="image" src="https://github.com/user-attachments/assets/ceba8506-0635-4920-baa2-b30781a52bc7" />
 
 ---
 Trang chủ:
 
-![alt text](https://github.com/user-attachments/assets/a454c3f2-1a33-4d04-9357-44ee68f3c205)
+<img width="474" height="986" alt="image" src="https://github.com/user-attachments/assets/934642c9-859e-47d4-b99a-a8e1d9d10726" />
+
 
 ---
 Trang Danh sách đội bóng/thêm đội: 
