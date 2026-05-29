@@ -28,6 +28,10 @@
 
         <activity android:name=".Activities.MainActivity" android:exported="false" />
 
+        <!-- Day 2: Team Management -->
+        <activity android:name=".Activities.TeamManagementActivity" android:exported="false" />
+        <activity android:name=".Activities.AddTeamActivity"        android:exported="false" />
+
     </application>
 
 </manifest>
