@@ -6,7 +6,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,44 +14,91 @@ import com.google.firebase.auth.FirebaseUser;
 import giangvc.cntt.ntu.footballhub.R;
 
 /**
- * MainActivity — Dashboard hiện ra sau khi đăng nhập thành công.
- * Cung cấp điều hướng đến các module của ứng dụng.
+ * MainActivity — Dashboard chính sau khi đăng nhập.
+ * Chỉ xử lý giao diện, chức năng sẽ bổ sung từng ngày sau.
  */
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+
+    // Header views
+    private TextView tvWelcome;
+
+    // Menu cards
+    private MaterialCardView cardTeamManagement;
+    private MaterialCardView cardTournament;
+    private MaterialCardView cardMatchSchedule;
+    private MaterialCardView cardStats;
+    private MaterialCardView cardDrawCeremony;
+    private MaterialCardView cardLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Hiển thị email người dùng đang đăng nhập
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        TextView tvWelcome = findViewById(R.id.tvWelcome);
-        if (currentUser != null && currentUser.getEmail() != null) {
-            tvWelcome.setText("Xin chào, " + currentUser.getEmail() + "!");
-        }
+        bindViews();
+        setupWelcomeText();
+        setupCardListeners();
+    }
 
-        // Card: Team Management → mở TeamManagementActivity
-        MaterialCardView cardTeamManagement = findViewById(R.id.cardTeamManagement);
+    // ──────────────────────────────────────────────
+
+    private void bindViews() {
+        tvWelcome          = findViewById(R.id.tvWelcome);
+        cardTeamManagement = findViewById(R.id.cardTeamManagement);
+        cardTournament     = findViewById(R.id.cardTournament);
+        cardMatchSchedule  = findViewById(R.id.cardMatchSchedule);
+        cardStats          = findViewById(R.id.cardStats);
+        cardDrawCeremony   = findViewById(R.id.cardDrawCeremony);
+        cardLogout         = findViewById(R.id.cardLogout);
+    }
+
+    private void setupWelcomeText() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null && user.getEmail() != null) {
+            String email = user.getEmail();
+            // Lấy phần trước @ để hiển thị ngắn gọn
+            String name = email.contains("@") ? email.substring(0, email.indexOf('@')) : email;
+            tvWelcome.setText("Xin chào, " + name + "!");
+        } else {
+            tvWelcome.setText("Xin chào!");
+        }
+    }
+
+    private void setupCardListeners() {
+        // Quản lý đội bóng (đã có)
         cardTeamManagement.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, TeamManagementActivity.class))
+                startActivity(new Intent(this, TeamManagementActivity.class))
         );
 
-        // Card: Logout → đăng xuất và quay về LoginActivity
-        MaterialCardView cardLogout = findViewById(R.id.cardLogout);
+        // Quản lý Giải đấu
+        cardTournament.setOnClickListener(v ->
+                startActivity(new Intent(this, TournamentManagementActivity.class))
+        );
+
+        // Lịch thi đấu & Kết quả
+        cardMatchSchedule.setOnClickListener(v ->
+                startActivity(new Intent(this, MatchScheduleActivity.class))
+        );
+
+        // Thống kê
+        cardStats.setOnClickListener(v ->
+                Toast.makeText(this, "Thống kê — sắp ra mắt!", Toast.LENGTH_SHORT).show()
+        );
+
+        // Bốc thăm
+        cardDrawCeremony.setOnClickListener(v ->
+                startActivity(new Intent(this, DrawCeremonyActivity.class))
+        );
+
+        // Đăng xuất
         cardLogout.setOnClickListener(v -> {
             mAuth.signOut();
             Toast.makeText(this, "Đã đăng xuất.", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });

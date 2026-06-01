@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    item_team.xml — Redesigned v2
-    Card hiện đại với avatar màu, badge điểm, thông tin cô đọng
+    item_player.xml
+    Card cầu thủ trong RecyclerView: số áo, tên, vị trí, bàn thắng
 -->
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,8 +10,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="12dp"
     android:layout_marginEnd="12dp"
-    android:layout_marginTop="6dp"
-    android:layout_marginBottom="6dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="3dp"
     app:cardBackgroundColor="@color/card_bg"
@@ -24,20 +24,18 @@
         android:padding="14dp"
         android:gravity="center_vertical">
 
-        <!-- Avatar tròn với chữ cái đầu tên đội -->
+        <!-- Avatar tròn với chữ cái đầu tên cầu thủ -->
         <FrameLayout
             android:layout_width="54dp"
             android:layout_height="54dp">
 
-            <!-- Circle background -->
             <View
                 android:layout_width="54dp"
                 android:layout_height="54dp"
                 android:background="@drawable/bg_avatar_circle" />
 
-            <!-- Chữ cái đầu (set từ Adapter) -->
             <TextView
-                android:id="@+id/tvTeamInitial"
+                android:id="@+id/tvPlayerInitial"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="A"
@@ -56,19 +54,19 @@
             android:paddingStart="14dp"
             android:paddingEnd="8dp">
 
-            <!-- Tên đội -->
+            <!-- Tên cầu thủ -->
             <TextView
-                android:id="@+id/tvTeamName"
+                android:id="@+id/tvPlayerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FC Sinh Viên"
+                android:text="Nguyễn Văn A"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary"
                 android:maxLines="1"
                 android:ellipsize="end" />
 
-            <!-- Đội trưởng -->
+            <!-- Lớp -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,21 +77,31 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🏅 "
+                    android:text="🏫 "
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tvCoachName"
+                    android:id="@+id/tvPlayerClass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đội trưởng: Nguyễn Văn A"
+                    android:text="Lớp: 63CNTT-1"
                     android:textSize="13sp"
                     android:textColor="@color/text_secondary"
                     android:maxLines="1"
                     android:ellipsize="end" />
             </LinearLayout>
 
+            <!-- MSSV -->
+            <TextView
+                android:id="@+id/tvStudentId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MSSV: 63130000"
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginTop="2dp" />
         </LinearLayout>
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

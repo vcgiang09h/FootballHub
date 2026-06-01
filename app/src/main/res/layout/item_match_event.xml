@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="8dp">
+
+    <Spinner
+        android:id="@+id/spinnerTeam"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="40dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/bg_format_unselected" />
+        
+    <Spinner
+        android:id="@+id/spinnerType"
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:layout_height="40dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/bg_format_unselected" />
+
+    <Spinner
+        android:id="@+id/spinnerPlayer"
+        android:layout_width="0dp"
+        android:layout_weight="2.5"
+        android:layout_height="40dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/bg_format_unselected" />
+
+    <EditText
+        android:id="@+id/etMinute"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:hint="Phút"
+        android:inputType="number"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:background="@drawable/bg_format_unselected" />
+        
+    <ImageButton
+        android:id="@+id/btnRemoveEvent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@android:drawable/ic_delete"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginStart="4dp" />
+
+</LinearLayout>

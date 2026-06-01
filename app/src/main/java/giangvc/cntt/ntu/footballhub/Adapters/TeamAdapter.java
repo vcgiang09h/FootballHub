@@ -14,36 +14,43 @@ import giangvc.cntt.ntu.footballhub.Models.Team;
 import giangvc.cntt.ntu.footballhub.R;
 
 /**
- * TeamAdapter binds a list of {@link Team} objects to item_team.xml views
- * inside the RecyclerView on TeamManagementActivity.
- *
- * An optional {@link OnTeamClickListener} callback lets the host Activity
- * react to item taps (e.g., open a detail/edit screen).
+ * TeamAdapter — v3 (Full CRUD)
+ * Bind Team model vào item_team.xml với:
+ *  - Chữ cái đầu tên đội làm avatar
+ *  - Tên HLV, số trận đã chơi
+ *  - Badge điểm số
+ *  - Click → mở chi tiết / sửa
+ *  - Long-click → callback xóa nhanh
  */
 public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder> {
 
-    // ── Data ──────────────────────────────────────────────────────────────────
     private final List<Team> teamList;
 
-    // ── Click callback interface ───────────────────────────────────────────────
+    // ── Click callbacks ────────────────────────────────────────────────────────
     public interface OnTeamClickListener {
         void onTeamClick(Team team);
     }
 
-    private OnTeamClickListener listener;
+    public interface OnTeamLongClickListener {
+        void onTeamLongClick(Team team);
+    }
 
-    // ── Constructor ───────────────────────────────────────────────────────────
+    private OnTeamClickListener     clickListener;
+    private OnTeamLongClickListener longClickListener;
 
     public TeamAdapter(List<Team> teamList) {
         this.teamList = teamList;
     }
 
-    /** Optional: attach a click listener from the Activity */
     public void setOnTeamClickListener(OnTeamClickListener listener) {
-        this.listener = listener;
+        this.clickListener = listener;
     }
 
-    // ── RecyclerView.Adapter overrides ────────────────────────────────────────
+    public void setOnTeamLongClickListener(OnTeamLongClickListener listener) {
+        this.longClickListener = listener;
+    }
+
+    // ── Adapter overrides ──────────────────────────────────────────────────────
 
     @NonNull
     @Override
@@ -55,8 +62,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull TeamViewHolder holder, int position) {
-        Team team = teamList.get(position);
-        holder.bind(team);
+        holder.bind(teamList.get(position));
     }
 
     @Override
@@ -64,28 +70,40 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
         return teamList.size();
     }
 
-    // ── ViewHolder ────────────────────────────────────────────────────────────
+    // ── ViewHolder ─────────────────────────────────────────────────────────────
 
     class TeamViewHolder extends RecyclerView.ViewHolder {
 
+        private final TextView tvTeamInitial;
         private final TextView tvTeamName;
         private final TextView tvCoachName;
 
         TeamViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTeamName  = itemView.findViewById(R.id.tvTeamName);
-            tvCoachName = itemView.findViewById(R.id.tvCoachName);
+            tvTeamInitial   = itemView.findViewById(R.id.tvTeamInitial);
+            tvTeamName      = itemView.findViewById(R.id.tvTeamName);
+            tvCoachName     = itemView.findViewById(R.id.tvCoachName);
         }
 
         void bind(Team team) {
-            tvTeamName.setText(team.getTeamName());
-            tvCoachName.setText("Coach: " + team.getCoachName());
+            // Chữ cái đầu tên đội làm avatar
+            String initial = (team.getTeamName() != null && !team.getTeamName().isEmpty())
+                    ? String.valueOf(team.getTeamName().charAt(0)).toUpperCase()
+                    : "?";
+            tvTeamInitial.setText(initial);
 
-            // Forward click events to the optional listener
+            tvTeamName.setText(team.getTeamName());
+            tvCoachName.setText("Đội trưởng: " + team.getCaptainName());
+
+            // Click → mở TeamDetailActivity (edit/delete)
             itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onTeamClick(team);
-                }
+                if (clickListener != null) clickListener.onTeamClick(team);
+            });
+
+            // Long-click → callback xóa nhanh
+            itemView.setOnLongClickListener(v -> {
+                if (longClickListener != null) longClickListener.onTeamLongClick(team);
+                return true; // consume event
             });
         }
     }

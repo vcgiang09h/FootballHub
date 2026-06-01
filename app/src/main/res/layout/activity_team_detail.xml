@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    activity_add_team.xml — Redesigned v2
-    Header banner xanh lá + form card nổi + nút save đẹp
+    activity_team_detail.xml
+    Chi tiết đội bóng: xem, chỉnh sửa và xóa
 -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,10 +11,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/screen_bg"
-    tools:context=".Activities.AddTeamActivity">
+    tools:context=".Activities.TeamDetailActivity">
 
-    <!-- ── Header banner ─────────────────────────────────────────────────── -->
+    <!-- ── Header banner ──────────────────────────────────────────────────── -->
     <LinearLayout
+        android:id="@+id/headerBanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -24,31 +25,83 @@
         android:paddingTop="48dp"
         android:paddingBottom="32dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Back button row -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🏆"
-            android:textSize="40sp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thêm Đội Bóng"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_on_dark"
-            android:layout_marginTop="8dp" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:titleTextColor="@color/text_on_dark"
+                app:title="" />
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Avatar circle + Team name -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Điền thông tin đội bóng mới vào bên dưới"
-            android:textSize="13sp"
-            android:textColor="#CCFFFFFF"
-            android:layout_marginTop="4dp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Big avatar -->
+            <FrameLayout
+                android:layout_width="72dp"
+                android:layout_height="72dp">
+
+                <View
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/bg_avatar_circle" />
+
+                <TextView
+                    android:id="@+id/tvDetailInitial"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="A"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_on_dark"
+                    android:gravity="center" />
+            </FrameLayout>
+
+            <!-- Title + stats summary -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingStart="16dp">
+
+                <TextView
+                    android:id="@+id/tvDetailTeamName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tên Đội"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_on_dark"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+                <TextView
+                    android:id="@+id/tvDetailCoachName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đội trưởng: ---"
+                    android:textSize="13sp"
+                    android:textColor="#CCFFFFFF"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
-    <!-- ── Form card nổi lên trên header ─────────────────────────────────── -->
+    <!-- ── Scrollable content ─────────────────────────────────────────────── -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -60,36 +113,45 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Card form chứa các input -->
+            <!-- ── Edit form card ────────────────────────────────────────────── -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-24dp"
+                android:layout_marginBottom="16dp"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="8dp"
+                app:cardElevation="4dp"
                 app:cardBackgroundColor="@color/card_bg">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="24dp">
+                    android:padding="20dp">
 
-                    <!-- Label: Tên đội -->
+                    <!-- Section title -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="✏️ Chỉnh sửa thông tin"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/green_primary"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Tên đội label -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tên đội bóng"
                         android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textColor="@color/green_primary"
+                        android:textColor="@color/text_secondary"
                         android:layout_marginBottom="6dp" />
 
-                    <!-- Team Name Input -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="VD: FC Sinh Viên K22"
+                        android:hint="Nhập tên đội..."
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:boxCornerRadiusTopStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
@@ -97,33 +159,31 @@
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxStrokeColor="@color/green_light"
                         app:hintTextColor="@color/green_primary"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="16dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etTeamName"
+                            android:id="@+id/etEditTeamName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapWords"
                             android:imeOptions="actionNext"
                             android:textSize="15sp" />
-
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Label: Tên lớp -->
+                    <!-- Tên lớp đội bóng -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tên lớp (Đội)"
+                        android:text="Lớp đội bóng"
                         android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textColor="@color/green_primary"
+                        android:textColor="@color/text_secondary"
                         android:layout_marginBottom="6dp" />
 
-                    <!-- Team Class Input -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="VD: 63CNTT-1"
+                        android:hint="Nhập lớp..."
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:boxCornerRadiusTopStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
@@ -131,10 +191,10 @@
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxStrokeColor="@color/green_light"
                         app:hintTextColor="@color/green_primary"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="16dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etTeamClass"
+                            android:id="@+id/etEditTeamClass"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapCharacters"
@@ -142,21 +202,20 @@
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Label: Đội trưởng -->
+                    <!-- Đội trưởng label -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tên đội trưởng"
+                        android:text="Đội trưởng"
                         android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textColor="@color/green_primary"
+                        android:textColor="@color/text_secondary"
                         android:layout_marginBottom="6dp" />
 
-                    <!-- Captain Name Input -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="VD: Trần Văn B"
+                        android:hint="Nhập tên đội trưởng..."
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:boxCornerRadiusTopStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
@@ -164,10 +223,10 @@
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxStrokeColor="@color/green_light"
                         app:hintTextColor="@color/green_primary"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="16dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etCaptainName"
+                            android:id="@+id/etEditCaptainName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapWords"
@@ -175,21 +234,20 @@
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Label: Lớp Đội trưởng -->
+                    <!-- Lớp đội trưởng -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Lớp đội trưởng"
                         android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textColor="@color/green_primary"
+                        android:textColor="@color/text_secondary"
                         android:layout_marginBottom="6dp" />
 
-                    <!-- Captain Class Input -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="VD: 63CNTT-1"
+                        android:hint="Nhập lớp đội trưởng..."
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:boxCornerRadiusTopStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
@@ -197,10 +255,10 @@
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxStrokeColor="@color/green_light"
                         app:hintTextColor="@color/green_primary"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="16dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etCaptainClass"
+                            android:id="@+id/etEditCaptainClass"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapCharacters"
@@ -208,21 +266,20 @@
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Label: MSSV Đội trưởng -->
+                    <!-- MSSV đội trưởng -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="MSSV đội trưởng"
                         android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textColor="@color/green_primary"
+                        android:textColor="@color/text_secondary"
                         android:layout_marginBottom="6dp" />
 
-                    <!-- Captain MSSV Input -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="VD: 63130001"
+                        android:hint="Nhập MSSV đội trưởng..."
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:boxCornerRadiusTopStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
@@ -230,10 +287,10 @@
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxStrokeColor="@color/green_light"
                         app:hintTextColor="@color/green_primary"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="16dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etCaptainStudentId"
+                            android:id="@+id/etEditCaptainStudentId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
@@ -241,21 +298,20 @@
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Label: SĐT Đội trưởng -->
+                    <!-- SĐT đội trưởng -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="SĐT đội trưởng"
                         android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textColor="@color/green_primary"
+                        android:textColor="@color/text_secondary"
                         android:layout_marginBottom="6dp" />
 
-                    <!-- Captain Phone Input -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="VD: 0987654321"
+                        android:hint="Nhập SĐT đội trưởng..."
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:boxCornerRadiusTopStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
@@ -263,10 +319,10 @@
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxStrokeColor="@color/green_light"
                         app:hintTextColor="@color/green_primary"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="16dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etCaptainPhone"
+                            android:id="@+id/etEditCaptainPhone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="phone"
@@ -274,21 +330,20 @@
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Label: Email Đội trưởng -->
+                    <!-- Email đội trưởng -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Email đội trưởng"
                         android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textColor="@color/green_primary"
+                        android:textColor="@color/text_secondary"
                         android:layout_marginBottom="6dp" />
 
-                    <!-- Captain Email Input -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="VD: abc@ntu.edu.vn"
+                        android:hint="Nhập Email đội trưởng..."
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:boxCornerRadiusTopStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
@@ -296,10 +351,10 @@
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxStrokeColor="@color/green_light"
                         app:hintTextColor="@color/green_primary"
-                        android:layout_marginBottom="8dp">
+                        android:layout_marginBottom="4dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etCaptainEmail"
+                            android:id="@+id/etEditCaptainEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textEmailAddress"
@@ -310,35 +365,53 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Divider khoảng cách -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="24dp" />
+            <!-- ── Action buttons ────────────────────────────────────────────── -->
 
-            <!-- Save Button -->
+            <!-- View Players button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSaveTeam"
+                android:id="@+id/btnViewPlayers"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="👤  Xem danh sách cầu thủ"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/green_primary"
+                app:backgroundTint="@android:color/transparent"
+                app:strokeColor="@color/green_primary"
+                app:strokeWidth="2dp"
+                app:cornerRadius="16dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Save / Update button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUpdateTeam"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="✔  Lưu Đội Bóng"
+                android:text="💾  Lưu thay đổi"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_on_dark"
                 app:backgroundTint="@color/green_primary"
                 app:cornerRadius="16dp"
-                app:elevation="4dp" />
+                app:elevation="4dp"
+                android:layout_marginBottom="12dp" />
 
-            <!-- Cancel button (text only) -->
+            <!-- Delete button (outlined red) -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCancel"
+                android:id="@+id/btnDeleteTeam"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Hủy"
+                android:layout_height="52dp"
+                android:text="🗑️  Xóa đội bóng"
                 android:textSize="15sp"
-                android:textColor="@color/green_primary"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                app:rippleColor="#1A4CAF50" />
+                android:textStyle="bold"
+                android:textColor="#D32F2F"
+                app:backgroundTint="@android:color/transparent"
+                app:strokeColor="#D32F2F"
+                app:strokeWidth="2dp"
+                app:cornerRadius="16dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginBottom="32dp" />
 
         </LinearLayout>
     </ScrollView>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    activity_team_management.xml — Redesigned v2
-    Dark green toolbar + subtitle + empty state + styled FAB
+    activity_player_management.xml
+    Danh sách cầu thủ theo đội — header xanh + RecyclerView + FAB
 -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,9 +10,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/screen_bg"
-    tools:context=".Activities.TeamManagementActivity">
+    tools:context=".Activities.PlayerManagementActivity">
 
-    <!-- ── Collapsing AppBar ─────────────────────────────────────────────── -->
+    <!-- ── AppBar Header ─────────────────────────────────────────────────── -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -20,7 +20,6 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
 
-        <!-- Gradient header background -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,8 +49,8 @@
                 <TextView
                     android:layout_width="52dp"
                     android:layout_height="52dp"
-                    android:text="⚽"
-                    android:textSize="28sp"
+                    android:text="👤"
+                    android:textSize="26sp"
                     android:gravity="center"
                     android:background="#33FFFFFF"
                     android:padding="8dp" />
@@ -65,15 +64,18 @@
                     android:paddingStart="14dp">
 
                     <TextView
+                        android:id="@+id/tvTeamNameHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Danh sách Đội bóng"
+                        android:text="Danh sách cầu thủ"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_on_dark" />
+                        android:textColor="@color/text_on_dark"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
 
                     <TextView
-                        android:id="@+id/tvTeamCount"
+                        android:id="@+id/tvPlayerCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Đang tải..."
@@ -86,15 +88,15 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- ── Main content ──────────────────────────────────────────────────── -->
+    <!-- ── Main content ───────────────────────────────────────────────────── -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Team list -->
+        <!-- Player list -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTeams"
+            android:id="@+id/rvPlayers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="8dp"
@@ -102,9 +104,9 @@
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:clipToPadding="false"
-            tools:listitem="@layout/item_team" />
+            tools:listitem="@layout/item_player" />
 
-        <!-- Empty state (hiện khi chưa có đội nào) -->
+        <!-- Empty state -->
         <LinearLayout
             android:id="@+id/layoutEmpty"
             android:layout_width="match_parent"
@@ -116,13 +118,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🏟️"
+                android:text="🏃"
                 android:textSize="64sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chưa có đội bóng nào"
+                android:text="Chưa có cầu thủ nào"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary"
@@ -131,7 +133,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nhấn nút + bên dưới để thêm đội đầu tiên"
+                android:text="Nhấn nút + để thêm cầu thủ đầu tiên"
                 android:textSize="14sp"
                 android:textColor="@color/text_secondary"
                 android:gravity="center"
@@ -142,14 +144,14 @@
 
     </FrameLayout>
 
-    <!-- ── Extended FAB (đẹp hơn FAB thường) ────────────────────────────── -->
+    <!-- ── Extended FAB ──────────────────────────────────────────────────── -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fabAddTeam"
+        android:id="@+id/fabAddPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
-        android:text="Thêm đội"
+        android:text="Thêm cầu thủ"
         android:textColor="@color/text_on_dark"
         app:icon="@android:drawable/ic_input_add"
         app:iconTint="@color/text_on_dark"

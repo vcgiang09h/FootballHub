@@ -9,9 +9,10 @@ public class Player {
     private String playerId;
     private String teamId;
     private String playerName;
-    private String position;
-    private int    jerseyNumber;
-    private int    goals;
+    private String playerClass;
+    private String studentId;
+    private String phone;
+    private String email;
 
     // ── Constructors ──────────────────────────────────────────────────────────
 
@@ -19,33 +20,37 @@ public class Player {
     public Player() {}
 
     /** Full parameterized constructor */
-    public Player(String playerId, String teamId, String playerName,
-                  String position, int jerseyNumber, int goals) {
-        this.playerId     = playerId;
-        this.teamId       = teamId;
-        this.playerName   = playerName;
-        this.position     = position;
-        this.jerseyNumber = jerseyNumber;
-        this.goals        = goals;
+    public Player(String playerId, String teamId, String playerName, String playerClass,
+                  String studentId, String phone, String email) {
+        this.playerId    = playerId;
+        this.teamId      = teamId;
+        this.playerName  = playerName;
+        this.playerClass = playerClass;
+        this.studentId   = studentId;
+        this.phone       = phone;
+        this.email       = email;
     }
 
     // ── Getters & Setters ─────────────────────────────────────────────────────
 
-    public String getPlayerId()                  { return playerId; }
-    public void   setPlayerId(String playerId)   { this.playerId = playerId; }
+    public String getPlayerId() { return playerId; }
+    public void setPlayerId(String playerId) { this.playerId = playerId; }
 
-    public String getTeamId()                    { return teamId; }
-    public void   setTeamId(String teamId)       { this.teamId = teamId; }
+    public String getTeamId() { return teamId; }
+    public void setTeamId(String teamId) { this.teamId = teamId; }
 
-    public String getPlayerName()                        { return playerName; }
-    public void   setPlayerName(String playerName)       { this.playerName = playerName; }
+    public String getPlayerName() { return playerName; }
+    public void setPlayerName(String playerName) { this.playerName = playerName; }
 
-    public String getPosition()                  { return position; }
-    public void   setPosition(String position)   { this.position = position; }
+    public String getPlayerClass() { return playerClass; }
+    public void setPlayerClass(String playerClass) { this.playerClass = playerClass; }
 
-    public int  getJerseyNumber()                        { return jerseyNumber; }
-    public void setJerseyNumber(int jerseyNumber)        { this.jerseyNumber = jerseyNumber; }
+    public String getStudentId() { return studentId; }
+    public void setStudentId(String studentId) { this.studentId = studentId; }
 
-    public int  getGoals()               { return goals; }
-    public void setGoals(int goals)      { this.goals = goals; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 }

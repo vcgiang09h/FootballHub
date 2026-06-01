@@ -1,0 +1,11 @@
+{
+  "java.jdt.ls.java.home": "C:\\Program Files\\Amazon Corretto\\jdk21.0.11_10",
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-21",
+      "path": "C:\\Program Files\\Amazon Corretto\\jdk21.0.11_10",
+      "default": true
+    }
+  ],
+  "java.import.gradle.java.home": "C:\\Program Files\\Amazon Corretto\\jdk21.0.11_10"
+}

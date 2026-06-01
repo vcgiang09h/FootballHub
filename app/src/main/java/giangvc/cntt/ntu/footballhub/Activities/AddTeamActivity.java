@@ -14,98 +14,93 @@ import giangvc.cntt.ntu.footballhub.Models.Team;
 import giangvc.cntt.ntu.footballhub.R;
 
 /**
- * AddTeamActivity
- *
- * Provides a form to create a new Team document in the Firestore "Teams" collection.
- * A unique document ID is generated via {@code db.collection("Teams").document().getId()}.
+ * AddTeamActivity — v2
+ * Form thêm đội bóng mới với giao diện redesigned.
+ * Có nút Hủy và toàn bộ text tiếng Việt.
  */
 public class AddTeamActivity extends AppCompatActivity {
 
-    // ── Views ─────────────────────────────────────────────────────────────────
     private TextInputEditText etTeamName;
-    private TextInputEditText etCoachName;
+    private TextInputEditText etTeamClass;
+    private TextInputEditText etCaptainName;
+    private TextInputEditText etCaptainClass;
+    private TextInputEditText etCaptainStudentId;
+    private TextInputEditText etCaptainPhone;
+    private TextInputEditText etCaptainEmail;
+    
     private MaterialButton    btnSaveTeam;
+    private MaterialButton    btnCancel;
 
-    // ── Firebase ──────────────────────────────────────────────────────────────
     private FirebaseFirestore db;
-
-    // ─────────────────────────────────────────────────────────────────────────
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_team);
 
-        // Enable back navigation in the ActionBar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Add New Team");
-        }
-
-        // Firebase
         db = FirebaseFirestore.getInstance();
 
-        // Bind views
-        etTeamName  = findViewById(R.id.etTeamName);
-        etCoachName = findViewById(R.id.etCoachName);
+        etTeamName         = findViewById(R.id.etTeamName);
+        etTeamClass        = findViewById(R.id.etTeamClass);
+        etCaptainName      = findViewById(R.id.etCaptainName);
+        etCaptainClass     = findViewById(R.id.etCaptainClass);
+        etCaptainStudentId = findViewById(R.id.etCaptainStudentId);
+        etCaptainPhone     = findViewById(R.id.etCaptainPhone);
+        etCaptainEmail     = findViewById(R.id.etCaptainEmail);
+        
         btnSaveTeam = findViewById(R.id.btnSaveTeam);
+        btnCancel   = findViewById(R.id.btnCancel);
 
-        // Save button listener
         btnSaveTeam.setOnClickListener(v -> saveTeam());
+        btnCancel.setOnClickListener(v -> finish());
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-
-    /** Validates inputs, builds the Team object, and writes it to Firestore. */
     private void saveTeam() {
-        String teamName  = etTeamName.getText()  != null ? etTeamName.getText().toString().trim()  : "";
-        String coachName = etCoachName.getText() != null ? etCoachName.getText().toString().trim() : "";
+        String teamName         = getText(etTeamName);
+        String teamClass        = getText(etTeamClass);
+        String captainName      = getText(etCaptainName);
+        String captainClass     = getText(etCaptainClass);
+        String captainStudentId = getText(etCaptainStudentId);
+        String captainPhone     = getText(etCaptainPhone);
+        String captainEmail     = getText(etCaptainEmail);
 
-        // ── Validation ────────────────────────────────────────────────────────
+        // Validate
         if (TextUtils.isEmpty(teamName)) {
-            etTeamName.setError("Team name is required");
+            etTeamName.setError("Vui lòng nhập tên đội");
             etTeamName.requestFocus();
             return;
         }
-
-        if (TextUtils.isEmpty(coachName)) {
-            etCoachName.setError("Coach name is required");
-            etCoachName.requestFocus();
+        if (TextUtils.isEmpty(captainName)) {
+            etCaptainName.setError("Vui lòng nhập tên đội trưởng");
+            etCaptainName.requestFocus();
             return;
         }
 
-        // ── Generate a unique Firestore document ID ───────────────────────────
+        // Generate Firestore document ID
         String teamId = db.collection("Teams").document().getId();
 
-        // ── Build the Team object (start with 0 stats) ────────────────────────
-        Team newTeam = new Team(
-                teamId,
-                teamName,
-                coachName,
-                "",   // logoUrl — can be updated later
-                0,    // matchesPlayed
-                0,    // points
-                0     // goalDifference
-        );
+        Team newTeam = new Team(teamId, teamName, teamClass, captainName, captainClass, captainStudentId, captainPhone, captainEmail);
 
-        // Disable button to prevent double-tap
         btnSaveTeam.setEnabled(false);
+        btnSaveTeam.setText("Đang lưu...");
 
-        // ── Write to Firestore ────────────────────────────────────────────────
         db.collection("Teams")
                 .document(teamId)
                 .set(newTeam)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Team \"" + teamName + "\" added!", Toast.LENGTH_SHORT).show();
-                    finish(); // Return to TeamManagementActivity
+                    Toast.makeText(this, "✅ Đã thêm đội \"" + teamName + "\"", Toast.LENGTH_SHORT).show();
+                    finish();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                    btnSaveTeam.setEnabled(true); // Re-enable on failure
+                    Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    btnSaveTeam.setEnabled(true);
+                    btnSaveTeam.setText("✔  Lưu Đội Bóng");
                 });
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    private String getText(TextInputEditText et) {
+        return et.getText() != null ? et.getText().toString().trim() : "";
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
