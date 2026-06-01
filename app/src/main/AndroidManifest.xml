@@ -49,6 +49,9 @@
         <activity android:name=".Activities.AddMatchActivity"      android:exported="false" />
         <activity android:name=".Activities.MatchDetailActivity"   android:exported="false" />
 
+        <!-- Statistics -->
+        <activity android:name=".Activities.StatisticsActivity"    android:exported="false" />
+
     </application>
 
 </manifest>

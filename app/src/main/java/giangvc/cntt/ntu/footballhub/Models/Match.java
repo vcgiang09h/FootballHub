@@ -18,6 +18,8 @@ public class Match {
     private String referee;
     private java.util.List<MatchEvent> events;
     private long matchOrder;
+    private Integer penaltyTeam1;
+    private Integer penaltyTeam2;
 
     public static final String STATUS_UPCOMING = "Sắp diễn ra";
     public static final String STATUS_ONGOING  = "Đang diễn ra";
@@ -107,4 +109,10 @@ public class Match {
 
     public java.util.List<MatchEvent> getEvents() { return events; }
     public void setEvents(java.util.List<MatchEvent> events) { this.events = events; }
+
+    public Integer getPenaltyTeam1() { return penaltyTeam1; }
+    public void setPenaltyTeam1(Integer penaltyTeam1) { this.penaltyTeam1 = penaltyTeam1; }
+
+    public Integer getPenaltyTeam2() { return penaltyTeam2; }
+    public void setPenaltyTeam2(Integer penaltyTeam2) { this.penaltyTeam2 = penaltyTeam2; }
 }

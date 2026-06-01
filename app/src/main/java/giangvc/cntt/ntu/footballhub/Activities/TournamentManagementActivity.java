@@ -102,7 +102,11 @@ public class TournamentManagementActivity extends AppCompatActivity {
         fabAddTournament.setOnClickListener(v ->
                 startActivity(new Intent(this, AddTournamentActivity.class))
         );
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         listenToTournaments();
     }
 
@@ -140,11 +144,21 @@ public class TournamentManagementActivity extends AppCompatActivity {
                 .setPositiveButton("Xóa", (dialog, which) ->
                         db.collection(COLLECTION).document(tournament.getTournamentId())
                                 .delete()
-                                .addOnSuccessListener(a ->
+                                .addOnSuccessListener(a -> {
+                                        // Xóa các trận đấu thuộc giải đấu này
+                                        db.collection("Matches").whereEqualTo("tournamentId", tournament.getTournamentId())
+                                                .get().addOnSuccessListener(snapshots -> {
+                                                    com.google.firebase.firestore.WriteBatch batch = db.batch();
+                                                    for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                                                        batch.delete(doc.getReference());
+                                                    }
+                                                    batch.commit();
+                                                });
+                                                
                                         Toast.makeText(this,
-                                                "🗑️ Đã xóa giải \"" + tournament.getTournamentName() + "\"",
-                                                Toast.LENGTH_SHORT).show()
-                                )
+                                                "🗑️ Đã xóa giải \"" + tournament.getTournamentName() + "\" và các lịch thi đấu liên quan",
+                                                Toast.LENGTH_SHORT).show();
+                                })
                                 .addOnFailureListener(e ->
                                         Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show()
                                 )

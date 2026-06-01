@@ -2,6 +2,8 @@ package giangvc.cntt.ntu.footballhub.Activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,8 @@ public class AddPlayerActivity extends AppCompatActivity {
     private TextInputEditText etStudentId;
     private TextInputEditText etPhone;
     private TextInputEditText etEmail;
+    private TextInputEditText etJerseyNumber;
+    private Spinner           spinnerPosition;
     private MaterialButton    btnSavePlayer;
     private MaterialButton    btnCancel;
     private TextView          tvTeamNameSubtitle;
@@ -61,9 +65,17 @@ public class AddPlayerActivity extends AppCompatActivity {
         etStudentId        = findViewById(R.id.etStudentId);
         etPhone            = findViewById(R.id.etPhone);
         etEmail            = findViewById(R.id.etEmail);
+        etJerseyNumber     = findViewById(R.id.etJerseyNumber);
+        spinnerPosition    = findViewById(R.id.spinnerPosition);
         btnSavePlayer      = findViewById(R.id.btnSavePlayer);
         btnCancel          = findViewById(R.id.btnCancel);
         tvTeamNameSubtitle = findViewById(R.id.tvTeamNameSubtitle);
+        
+        // Setup Spinner
+        String[] positions = {"Thủ môn", "Hậu vệ", "Tiền vệ", "Tiền đạo"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, positions);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPosition.setAdapter(adapter);
 
         // Hiển thị tên đội trong subtitle
         if (teamName != null) {
@@ -82,6 +94,9 @@ public class AddPlayerActivity extends AppCompatActivity {
         String studentId   = getText(etStudentId);
         String phone       = getText(etPhone);
         String email       = getText(etEmail);
+        String jerseyStr   = getText(etJerseyNumber);
+        int jerseyNumber   = 0;
+        try { if (!jerseyStr.isEmpty()) jerseyNumber = Integer.parseInt(jerseyStr); } catch (NumberFormatException ignored) {}
 
         // Validate
         if (TextUtils.isEmpty(name)) {
@@ -95,10 +110,12 @@ public class AddPlayerActivity extends AppCompatActivity {
             return;
         }
 
+        String positionStr = spinnerPosition.getSelectedItem() != null ? spinnerPosition.getSelectedItem().toString() : "";
+
         // Generate Firestore document ID
         String playerId = db.collection(COLLECTION).document().getId();
 
-        Player newPlayer = new Player(playerId, teamId, name, playerClass, studentId, phone, email);
+        Player newPlayer = new Player(playerId, teamId, name, playerClass, studentId, phone, email, jerseyNumber, positionStr);
 
         btnSavePlayer.setEnabled(false);
         btnSavePlayer.setText("Đang lưu...");

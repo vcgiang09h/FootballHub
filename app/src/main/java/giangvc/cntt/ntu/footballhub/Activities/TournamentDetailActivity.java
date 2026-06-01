@@ -258,7 +258,17 @@ public class TournamentDetailActivity extends AppCompatActivity {
                     db.collection(COLLECTION).document(tournamentId)
                             .delete()
                             .addOnSuccessListener(a -> {
-                                Toast.makeText(this, "🗑️ Đã xóa giải \"" + name + "\"", Toast.LENGTH_SHORT).show();
+                                // Xóa các trận đấu thuộc giải đấu này
+                                db.collection("Matches").whereEqualTo("tournamentId", tournamentId)
+                                        .get().addOnSuccessListener(snapshots -> {
+                                            com.google.firebase.firestore.WriteBatch batch = db.batch();
+                                            for (com.google.firebase.firestore.DocumentSnapshot doc : snapshots.getDocuments()) {
+                                                batch.delete(doc.getReference());
+                                            }
+                                            batch.commit();
+                                        });
+
+                                Toast.makeText(this, "🗑️ Đã xóa giải \"" + name + "\" và các lịch thi đấu liên quan", Toast.LENGTH_SHORT).show();
                                 finish();
                             })
                             .addOnFailureListener(e ->

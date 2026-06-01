@@ -5,10 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F4F0"
+    android:background="#FAFAFA"
     tools:context=".Activities.MainActivity">
 
-    <!-- ═══════════════ SCROLLABLE BODY ═══════════════ -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,16 +20,19 @@
             <!-- ══════════ HERO HEADER ══════════ -->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/bg_header_gradient"
-                android:padding="24dp">
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="48dp"
+                android:paddingBottom="48dp">
 
                 <!-- Decorative circle top-right -->
                 <View
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     android:background="@drawable/bg_avatar_circle"
-                    android:alpha="0.07"
+                    android:alpha="0.05"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="-40dp"
@@ -41,7 +43,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@drawable/bg_avatar_circle"
-                    android:alpha="0.05"
+                    android:alpha="0.03"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"
                     android:layout_marginBottom="-30dp"
@@ -60,40 +62,39 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⚽"
+                            android:textSize="20sp"
+                            android:layout_marginEnd="8dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="⚽ FootballHub"
-                            android:textSize="13sp"
-                            android:textColor="#A5D6A7"
-                            android:letterSpacing="0.1" />
-
-                        <TextView
-                            android:id="@+id/tvWelcome"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Xin chào, Admin!"
-                            android:textSize="22sp"
+                            android:text="FootballHub"
+                            android:textSize="15sp"
                             android:textStyle="bold"
-                            android:textColor="#FFFFFF"
-                            android:layout_marginTop="2dp" />
-
+                            android:textColor="#1B2A1D"
+                            android:letterSpacing="0.05" />
                     </LinearLayout>
 
                     <!-- Avatar circle -->
                     <FrameLayout
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/bg_avatar_circle">
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_avatar_circle"
+                        android:backgroundTint="#7B9C7F">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="A"
-                            android:textSize="20sp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="#FFFFFF" />
 
@@ -103,110 +104,25 @@
 
                 <!-- Subtitle -->
                 <TextView
+                    android:id="@+id/tvWelcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Xin chào, voconggiang.ntu!"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#1B2A1D"
+                    android:layout_below="@id/layoutTopRow"
+                    android:layout_marginTop="24dp" />
+
+                <TextView
                     android:id="@+id/tvSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hệ thống quản lý giải đấu bóng đá"
                     android:textSize="13sp"
-                    android:textColor="#C8E6C9"
-                    android:layout_below="@id/layoutTopRow"
+                    android:textColor="#5A6F5C"
+                    android:layout_below="@id/tvWelcome"
                     android:layout_marginTop="4dp" />
-
-                <!-- Stat chips row -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center_vertical">
-
-                    <!-- Stat: Teams -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:background="@drawable/bg_stat_chip"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:layout_marginEnd="6dp">
-
-                        <TextView
-                            android:id="@+id/tvStatTeams"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="22sp"
-                            android:textStyle="bold"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Đội"
-                            android:textSize="11sp"
-                            android:textColor="#C8E6C9" />
-
-                    </LinearLayout>
-
-                    <!-- Stat: Tournaments -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:background="@drawable/bg_stat_chip"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:layout_marginEnd="6dp">
-
-                        <TextView
-                            android:id="@+id/tvStatTournaments"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="22sp"
-                            android:textStyle="bold"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Giải đấu"
-                            android:textSize="11sp"
-                            android:textColor="#C8E6C9" />
-
-                    </LinearLayout>
-
-                    <!-- Stat: Matches -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:background="@drawable/bg_stat_chip"
-                        android:padding="10dp"
-                        android:gravity="center">
-
-                        <TextView
-                            android:id="@+id/tvStatMatches"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="22sp"
-                            android:textStyle="bold"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Trận đấu"
-                            android:textSize="11sp"
-                            android:textColor="#C8E6C9" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
             </RelativeLayout>
 
@@ -215,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
                 <!-- Section label -->
                 <TextView
@@ -225,8 +141,8 @@
                     android:textSize="11sp"
                     android:textStyle="bold"
                     android:textColor="#7B9C7F"
-                    android:letterSpacing="0.15"
-                    android:layout_marginBottom="12dp"
+                    android:letterSpacing="0.1"
+                    android:layout_marginBottom="16dp"
                     android:layout_marginStart="4dp" />
 
                 <!-- Row 1: Team + Tournament -->
@@ -240,108 +156,100 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardTeamManagement"
                         android:layout_width="0dp"
-                        android:layout_height="150dp"
+                        android:layout_height="80dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="6dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#FFFFFF">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#E8F5E9">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:padding="16dp"
-                            android:gravity="center_horizontal">
+                            android:orientation="horizontal"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:gravity="center_vertical">
 
-                            <FrameLayout
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:background="@drawable/bg_icon_circle_green">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="👥"
+                                android:textSize="24sp"
+                                android:layout_marginEnd="12dp" />
 
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text="👥"
-                                    android:textSize="26sp" />
-
-                            </FrameLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Đội bóng"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textColor="#1B2A1D"
-                                android:layout_marginTop="10dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Quản lý các đội"
-                                android:textSize="11sp"
-                                android:textColor="#7B9C7F"
-                                android:gravity="center"
-                                android:layout_marginTop="2dp" />
+                                    android:text="Đội bóng"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#1B2A1D" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Managing the teams"
+                                    android:textSize="10sp"
+                                    android:textColor="#5A6F5C"
+                                    android:layout_marginTop="2dp" />
+                            </LinearLayout>
 
                         </LinearLayout>
-
                     </com.google.android.material.card.MaterialCardView>
 
                     <!-- Card: Tạo Giải đấu -->
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardTournament"
                         android:layout_width="0dp"
-                        android:layout_height="150dp"
+                        android:layout_height="80dp"
                         android:layout_weight="1"
                         android:layout_marginStart="6dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#FFFFFF">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#FFF3E0">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:padding="16dp"
-                            android:gravity="center_horizontal">
+                            android:orientation="horizontal"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:gravity="center_vertical">
 
-                            <FrameLayout
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:background="@drawable/bg_icon_circle_amber">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="🏆"
+                                android:textSize="24sp"
+                                android:layout_marginEnd="12dp" />
 
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text="🏆"
-                                    android:textSize="26sp" />
-
-                            </FrameLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Giải đấu"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textColor="#1B2A1D"
-                                android:layout_marginTop="10dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Tạo &amp; quản lý giải"
-                                android:textSize="11sp"
-                                android:textColor="#7B9C7F"
-                                android:gravity="center"
-                                android:layout_marginTop="2dp" />
+                                    android:text="Giải đấu"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#1B2A1D" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Create &amp; manage tournament"
+                                    android:textSize="10sp"
+                                    android:textColor="#5A6F5C"
+                                    android:layout_marginTop="2dp" />
+                            </LinearLayout>
 
                         </LinearLayout>
-
                     </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
@@ -357,181 +265,152 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardMatchSchedule"
                         android:layout_width="0dp"
-                        android:layout_height="150dp"
+                        android:layout_height="80dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="6dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#FFFFFF">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#E3F2FD">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:padding="16dp"
-                            android:gravity="center_horizontal">
+                            android:orientation="horizontal"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:gravity="center_vertical">
 
-                            <FrameLayout
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:background="@drawable/bg_icon_circle_blue">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="📅"
+                                android:textSize="24sp"
+                                android:layout_marginEnd="12dp" />
 
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text="📅"
-                                    android:textSize="26sp" />
-
-                            </FrameLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Lịch &amp; Kết quả"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textColor="#1B2A1D"
-                                android:layout_marginTop="10dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Theo dõi trận đấu"
-                                android:textSize="11sp"
-                                android:textColor="#7B9C7F"
-                                android:gravity="center"
-                                android:layout_marginTop="2dp" />
+                                    android:text="Lịch &amp; Kết quả"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#1B2A1D" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Match tracking"
+                                    android:textSize="10sp"
+                                    android:textColor="#5A6F5C"
+                                    android:layout_marginTop="2dp" />
+                            </LinearLayout>
 
                         </LinearLayout>
-
                     </com.google.android.material.card.MaterialCardView>
 
                     <!-- Card: Thống kê -->
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardStats"
                         android:layout_width="0dp"
-                        android:layout_height="150dp"
+                        android:layout_height="80dp"
                         android:layout_weight="1"
                         android:layout_marginStart="6dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#FFFFFF">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#F3E5F5">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:padding="16dp"
-                            android:gravity="center_horizontal">
+                            android:orientation="horizontal"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:gravity="center_vertical">
 
-                            <FrameLayout
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:background="@drawable/bg_icon_circle_purple">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="📊"
+                                android:textSize="24sp"
+                                android:layout_marginEnd="12dp" />
 
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text="📊"
-                                    android:textSize="26sp" />
-
-                            </FrameLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Thống kê"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textColor="#1B2A1D"
-                                android:layout_marginTop="10dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Kết quả &amp; xếp hạng"
-                                android:textSize="11sp"
-                                android:textColor="#7B9C7F"
-                                android:gravity="center"
-                                android:layout_marginTop="2dp" />
+                                    android:text="Thống kê"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#1B2A1D" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Results &amp; ranking"
+                                    android:textSize="10sp"
+                                    android:textColor="#5A6F5C"
+                                    android:layout_marginTop="2dp" />
+                            </LinearLayout>
 
                         </LinearLayout>
-
                     </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
 
                 <!-- Row 3: Bốc thăm -->
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardDrawCeremony"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp">
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="24dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#FFE0B2">
 
-                    <!-- Card: Bốc thăm giải đấu -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardDrawCeremony"
-                        android:layout_width="0dp"
-                        android:layout_height="150dp"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="6dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#FFFFFF">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🎲"
+                            android:textSize="28sp"
+                            android:layout_marginEnd="16dp" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:padding="16dp"
-                            android:gravity="center_horizontal">
-
-                            <FrameLayout
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:background="@drawable/bg_icon_circle_amber">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text="🎲"
-                                    android:textSize="26sp" />
-
-                            </FrameLayout>
-
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Bốc thăm"
-                                android:textSize="14sp"
+                                android:textSize="15sp"
                                 android:textStyle="bold"
-                                android:textColor="#1B2A1D"
-                                android:layout_marginTop="10dp" />
-
+                                android:textColor="#1B2A1D" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Bốc thăm chia cặp"
                                 android:textSize="11sp"
-                                android:textColor="#7B9C7F"
-                                android:gravity="center"
+                                android:textColor="#5A6F5C"
                                 android:layout_marginTop="2dp" />
-
                         </LinearLayout>
 
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Dummy card to fill space -->
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="150dp"
-                        android:layout_weight="1"
-                        android:layout_marginStart="6dp" />
-
-                </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- ══ Divider + Account section ══ -->
                 <TextView
@@ -541,41 +420,35 @@
                     android:textSize="11sp"
                     android:textStyle="bold"
                     android:textColor="#7B9C7F"
-                    android:letterSpacing="0.15"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="4dp"
+                    android:letterSpacing="0.1"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginStart="4dp" />
 
-                <!-- Card: Đăng xuất -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardLogout"
+                <!-- Account Items inside a single card/background -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="4dp"
-                    app:cardBackgroundColor="#FFFFFF">
+                    android:orientation="vertical"
+                    android:background="@android:color/transparent">
 
+                    <!-- Đăng xuất -->
                     <LinearLayout
+                        android:id="@+id/cardLogout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="18dp"
-                        android:gravity="center_vertical">
+                        android:padding="16dp"
+                        android:gravity="center_vertical"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                        <FrameLayout
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
-                            android:background="@drawable/bg_icon_circle_red">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="🚪"
-                                android:textSize="20sp" />
-
-                        </FrameLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🚪"
+                            android:textSize="20sp"
+                            android:layout_marginEnd="16dp" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -584,20 +457,87 @@
                             android:text="Đăng xuất"
                             android:textSize="15sp"
                             android:textStyle="bold"
-                            android:textColor="#C62828"
-                            android:paddingStart="14dp" />
+                            android:textColor="#1B2A1D" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="›"
-                            android:textSize="24sp"
-                            android:textColor="#EF9A9A"
-                            android:alpha="0.7" />
-
+                            android:textSize="20sp"
+                            android:textColor="#9E9E9E" />
                     </LinearLayout>
 
-                </com.google.android.material.card.MaterialCardView>
+                    <!-- Dummy 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="👤"
+                            android:textSize="20sp"
+                            android:layout_marginEnd="16dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Hồ sơ của tôi"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="#1B2A1D" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textSize="20sp"
+                            android:textColor="#9E9E9E" />
+                    </LinearLayout>
+
+                    <!-- Dummy 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⚙"
+                            android:textSize="20sp"
+                            android:layout_marginEnd="16dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Cài đặt ứng dụng"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="#1B2A1D" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textSize="20sp"
+                            android:textColor="#9E9E9E" />
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 

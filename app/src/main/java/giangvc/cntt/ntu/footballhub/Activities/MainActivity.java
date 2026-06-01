@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Thống kê
         cardStats.setOnClickListener(v ->
-                Toast.makeText(this, "Thống kê — sắp ra mắt!", Toast.LENGTH_SHORT).show()
+                startActivity(new Intent(this, StatisticsActivity.class))
         );
 
         // Bốc thăm

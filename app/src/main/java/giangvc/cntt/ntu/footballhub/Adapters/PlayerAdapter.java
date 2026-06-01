@@ -75,24 +75,32 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         private final TextView tvPlayerInitial;
         private final TextView tvPlayerName;
         private final TextView tvPlayerClass;
-        private final TextView tvStudentId;
+        private final TextView tvPlayerJerseyPosition;
 
         PlayerViewHolder(@NonNull View itemView) {
             super(itemView);
             tvPlayerInitial = itemView.findViewById(R.id.tvPlayerInitial);
             tvPlayerName    = itemView.findViewById(R.id.tvPlayerName);
             tvPlayerClass   = itemView.findViewById(R.id.tvPlayerClass);
-            tvStudentId     = itemView.findViewById(R.id.tvStudentId);
+            tvPlayerJerseyPosition = itemView.findViewById(R.id.tvPlayerJerseyPosition);
         }
 
         void bind(Player player) {
-            String initial = (player.getPlayerName() != null && !player.getPlayerName().isEmpty())
-                    ? String.valueOf(player.getPlayerName().charAt(0)).toUpperCase()
-                    : "?";
-            tvPlayerInitial.setText(initial);
+            // Nếu có số áo → hiển thị số áo, ngược lại hiển thị chữ cái đầu
+            if (player.getJerseyNumber() > 0) {
+                tvPlayerInitial.setText(String.valueOf(player.getJerseyNumber()));
+            } else {
+                String initial = (player.getPlayerName() != null && !player.getPlayerName().isEmpty())
+                        ? String.valueOf(player.getPlayerName().charAt(0)).toUpperCase()
+                        : "?";
+                tvPlayerInitial.setText(initial);
+            }
             tvPlayerName.setText(player.getPlayerName());
             tvPlayerClass.setText("Lớp: " + player.getPlayerClass());
-            tvStudentId.setText("MSSV: " + player.getStudentId());
+
+            String jerseyStr = player.getJerseyNumber() > 0 ? String.valueOf(player.getJerseyNumber()) : "--";
+            String positionStr = (player.getPosition() != null && !player.getPosition().isEmpty()) ? player.getPosition() : "--";
+            tvPlayerJerseyPosition.setText("Số áo: " + jerseyStr + " | Vị trí: " + positionStr);
 
             // Click → mở PlayerDetailActivity (edit/delete)
             itemView.setOnClickListener(v -> {

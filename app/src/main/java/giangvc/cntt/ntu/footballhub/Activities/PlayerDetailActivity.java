@@ -2,6 +2,8 @@ package giangvc.cntt.ntu.footballhub.Activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,8 @@ public class PlayerDetailActivity extends AppCompatActivity {
     public static final String EXTRA_STUDENT_ID   = "STUDENT_ID";
     public static final String EXTRA_PHONE        = "PHONE";
     public static final String EXTRA_EMAIL        = "EMAIL";
+    public static final String EXTRA_JERSEY_NUMBER = "JERSEY_NUMBER";
+    public static final String EXTRA_POSITION      = "POSITION";
 
     private static final String COLLECTION = "Players";
 
@@ -47,6 +51,8 @@ public class PlayerDetailActivity extends AppCompatActivity {
     private TextInputEditText etEditStudentId;
     private TextInputEditText etEditPhone;
     private TextInputEditText etEditEmail;
+    private TextInputEditText etEditJerseyNumber;
+    private Spinner           spinnerEditPosition;
 
     private MaterialButton btnUpdatePlayer;
     private MaterialButton btnDeletePlayer;
@@ -77,11 +83,12 @@ public class PlayerDetailActivity extends AppCompatActivity {
         // Nhận dữ liệu từ Intent
         playerId         = getIntent().getStringExtra(EXTRA_PLAYER_ID);
         String playerName = getIntent().getStringExtra(EXTRA_PLAYER_NAME);
-        String position   = getIntent().getStringExtra(EXTRA_PLAYER_CLASS); // keep names as variable for now or replace
+        String position   = getIntent().getStringExtra(EXTRA_POSITION);
         String playerClass= getIntent().getStringExtra(EXTRA_PLAYER_CLASS);
         String studentId  = getIntent().getStringExtra(EXTRA_STUDENT_ID);
         String phone      = getIntent().getStringExtra(EXTRA_PHONE);
         String email      = getIntent().getStringExtra(EXTRA_EMAIL);
+        int jerseyNumber  = getIntent().getIntExtra(EXTRA_JERSEY_NUMBER, 0);
 
         // Bind views
         tvDetailPlayerInitial = findViewById(R.id.tvDetailPlayerInitial);
@@ -94,12 +101,20 @@ public class PlayerDetailActivity extends AppCompatActivity {
         etEditStudentId   = findViewById(R.id.etEditStudentId);
         etEditPhone       = findViewById(R.id.etEditPhone);
         etEditEmail       = findViewById(R.id.etEditEmail);
+        etEditJerseyNumber = findViewById(R.id.etEditJerseyNumber);
+        spinnerEditPosition = findViewById(R.id.spinnerEditPosition);
+
+        // Setup Spinner
+        String[] positions = {"Thủ môn", "Hậu vệ", "Tiền vệ", "Tiền đạo"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, positions);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerEditPosition.setAdapter(adapter);
 
         btnUpdatePlayer = findViewById(R.id.btnUpdatePlayer);
         btnDeletePlayer = findViewById(R.id.btnDeletePlayer);
 
         // Populate
-        populateViews(playerName, playerClass, studentId, phone, email);
+        populateViews(playerName, playerClass, studentId, phone, email, jerseyNumber, position, positions);
 
         btnUpdatePlayer.setOnClickListener(v -> updatePlayer());
         btnDeletePlayer.setOnClickListener(v -> confirmDelete());
@@ -107,7 +122,7 @@ public class PlayerDetailActivity extends AppCompatActivity {
 
     // ──────────────────────────────────────────────────────────────────────────
 
-    private void populateViews(String playerName, String playerClass, String studentId, String phone, String email) {
+    private void populateViews(String playerName, String playerClass, String studentId, String phone, String email, int jerseyNumber, String position, String[] positions) {
         // Header
         String initial = (playerName != null && !playerName.isEmpty()) ? String.valueOf(playerName.charAt(0)).toUpperCase() : "?";
         tvDetailPlayerInitial.setText(initial);
@@ -121,6 +136,16 @@ public class PlayerDetailActivity extends AppCompatActivity {
         etEditStudentId.setText(studentId);
         etEditPhone.setText(phone);
         etEditEmail.setText(email);
+        if (jerseyNumber > 0) etEditJerseyNumber.setText(String.valueOf(jerseyNumber));
+        
+        if (position != null) {
+            for (int i = 0; i < positions.length; i++) {
+                if (positions[i].equals(position)) {
+                    spinnerEditPosition.setSelection(i);
+                    break;
+                }
+            }
+        }
     }
 
     // ──────────────────────────────────────────────────────────────────────────
@@ -132,6 +157,9 @@ public class PlayerDetailActivity extends AppCompatActivity {
         String newStudentId   = getText(etEditStudentId);
         String newPhone       = getText(etEditPhone);
         String newEmail       = getText(etEditEmail);
+        String jerseyStr      = getText(etEditJerseyNumber);
+        int newJerseyNumber   = 0;
+        try { if (!jerseyStr.isEmpty()) newJerseyNumber = Integer.parseInt(jerseyStr); } catch (NumberFormatException ignored) {}
 
         // Validate
         if (TextUtils.isEmpty(newName)) {
@@ -145,12 +173,16 @@ public class PlayerDetailActivity extends AppCompatActivity {
             return;
         }
 
+        String newPosition    = spinnerEditPosition.getSelectedItem() != null ? spinnerEditPosition.getSelectedItem().toString() : "";
+
         Map<String, Object> updates = new HashMap<>();
         updates.put("playerName",  newName);
         updates.put("playerClass", newPlayerClass);
         updates.put("studentId",   newStudentId);
         updates.put("phone",       newPhone);
         updates.put("email",       newEmail);
+        updates.put("jerseyNumber", newJerseyNumber);
+        updates.put("position",    newPosition);
 
         btnUpdatePlayer.setEnabled(false);
         btnUpdatePlayer.setText("Đang lưu...");

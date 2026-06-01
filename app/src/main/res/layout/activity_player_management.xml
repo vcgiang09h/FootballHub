@@ -83,6 +83,18 @@
                         android:textColor="#CCFFFFFF"
                         android:layout_marginTop="2dp" />
                 </LinearLayout>
+
+                <!-- Edit Team Button -->
+                <TextView
+                    android:id="@+id/btnEditTeam"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="✏️"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true" />
             </LinearLayout>
         </LinearLayout>
 

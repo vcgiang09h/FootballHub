@@ -55,6 +55,12 @@ public class PlayerManagementActivity extends AppCompatActivity {
     private List<Player>  playerList;
     private String        teamId;
     private String        teamName;
+    private String        teamClass;
+    private String        captainName;
+    private String        captainClass;
+    private String        captainStudentId;
+    private String        captainPhone;
+    private String        captainEmail;
 
     // ── Firebase ───────────────────────────────────────────────────────────────
     private FirebaseFirestore    db;
@@ -70,6 +76,12 @@ public class PlayerManagementActivity extends AppCompatActivity {
         // Nhận data từ Intent
         teamId   = getIntent().getStringExtra(EXTRA_TEAM_ID);
         teamName = getIntent().getStringExtra(EXTRA_TEAM_NAME);
+        teamClass = getIntent().getStringExtra("TEAM_CLASS");
+        captainName = getIntent().getStringExtra("CAPTAIN_NAME");
+        captainClass = getIntent().getStringExtra("CAPTAIN_CLASS");
+        captainStudentId = getIntent().getStringExtra("CAPTAIN_STUDENT_ID");
+        captainPhone = getIntent().getStringExtra("CAPTAIN_PHONE");
+        captainEmail = getIntent().getStringExtra("CAPTAIN_EMAIL");
 
         // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -81,15 +93,29 @@ public class PlayerManagementActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        // Views
         rvPlayers        = findViewById(R.id.rvPlayers);
         fabAddPlayer     = findViewById(R.id.fabAddPlayer);
         layoutEmpty      = findViewById(R.id.layoutEmpty);
         tvPlayerCount    = findViewById(R.id.tvPlayerCount);
         tvTeamNameHeader = findViewById(R.id.tvTeamNameHeader);
+        TextView btnEditTeam = findViewById(R.id.btnEditTeam);
 
         // Set team name trong header
         if (teamName != null) tvTeamNameHeader.setText(teamName);
+        
+        // Nút sửa đội bóng
+        btnEditTeam.setOnClickListener(v -> {
+            Intent intent = new Intent(this, TeamDetailActivity.class);
+            intent.putExtra(TeamDetailActivity.EXTRA_TEAM_ID, teamId);
+            intent.putExtra(TeamDetailActivity.EXTRA_TEAM_NAME, teamName);
+            intent.putExtra(TeamDetailActivity.EXTRA_TEAM_CLASS, teamClass);
+            intent.putExtra(TeamDetailActivity.EXTRA_CAPTAIN_NAME, captainName);
+            intent.putExtra(TeamDetailActivity.EXTRA_CAPTAIN_CLASS, captainClass);
+            intent.putExtra(TeamDetailActivity.EXTRA_CAPTAIN_STUDENT_ID, captainStudentId);
+            intent.putExtra(TeamDetailActivity.EXTRA_CAPTAIN_PHONE, captainPhone);
+            intent.putExtra(TeamDetailActivity.EXTRA_CAPTAIN_EMAIL, captainEmail);
+            startActivity(intent);
+        });
 
         // RecyclerView
         playerList    = new ArrayList<>();
@@ -116,20 +142,25 @@ public class PlayerManagementActivity extends AppCompatActivity {
             intent.putExtra(PlayerDetailActivity.EXTRA_STUDENT_ID,  player.getStudentId());
             intent.putExtra(PlayerDetailActivity.EXTRA_PHONE,       player.getPhone());
             intent.putExtra(PlayerDetailActivity.EXTRA_EMAIL,       player.getEmail());
+            intent.putExtra(PlayerDetailActivity.EXTRA_JERSEY_NUMBER, player.getJerseyNumber());
+            intent.putExtra(PlayerDetailActivity.EXTRA_POSITION,    player.getPosition());
             startActivity(intent);
         });
 
         // Long-click → Dialog xóa nhanh
         playerAdapter.setOnPlayerLongClickListener(this::showQuickDeleteDialog);
 
-        // FAB → AddPlayerActivity (Create)
         fabAddPlayer.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddPlayerActivity.class);
             intent.putExtra(AddPlayerActivity.EXTRA_TEAM_ID,   teamId);
             intent.putExtra(AddPlayerActivity.EXTRA_TEAM_NAME, teamName);
             startActivity(intent);
         });
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         listenToPlayers();
     }
 

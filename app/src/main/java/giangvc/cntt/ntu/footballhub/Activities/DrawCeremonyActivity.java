@@ -37,6 +37,7 @@ public class DrawCeremonyActivity extends AppCompatActivity {
     private Spinner spinnerTournaments;
     private LinearLayout layoutSeedsContainer;
     private MaterialButton btnSaveDraw;
+    private MaterialButton btnAutoDraw;
 
     private FirebaseFirestore db;
     private List<Tournament> pendingTournaments = new ArrayList<>();
@@ -61,8 +62,10 @@ public class DrawCeremonyActivity extends AppCompatActivity {
         spinnerTournaments = findViewById(R.id.spinnerTournaments);
         layoutSeedsContainer = findViewById(R.id.layoutSeedsContainer);
         btnSaveDraw = findViewById(R.id.btnSaveDraw);
+        btnAutoDraw = findViewById(R.id.btnAutoDraw);
 
         btnSaveDraw.setOnClickListener(v -> saveDraw());
+        btnAutoDraw.setOnClickListener(v -> autoDraw());
 
         loadPendingTournaments();
     }
@@ -78,6 +81,7 @@ public class DrawCeremonyActivity extends AppCompatActivity {
                     if (snapshots.isEmpty()) {
                         names.add("Không có giải đấu nào chờ bốc thăm");
                         btnSaveDraw.setEnabled(false);
+                        btnAutoDraw.setEnabled(false);
                     } else {
                         for (DocumentSnapshot doc : snapshots.getDocuments()) {
                             Tournament t = doc.toObject(Tournament.class);
@@ -149,6 +153,29 @@ public class DrawCeremonyActivity extends AppCompatActivity {
         }
         
         btnSaveDraw.setEnabled(true);
+        btnAutoDraw.setEnabled(true);
+    }
+
+    private void autoDraw() {
+        if (selectedTournament == null || seedSpinners.isEmpty()) return;
+
+        int n = seedSpinners.size();
+        List<Integer> availablePositions = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            availablePositions.add(i);
+        }
+        
+        java.util.Collections.shuffle(availablePositions);
+        
+        for (int i = 1; i <= n; i++) {
+            Spinner spinner = seedSpinners.get(i);
+            if (spinner != null) {
+                // availablePositions.get(i-1) returns a 1-based index corresponding to the team
+                spinner.setSelection(availablePositions.get(i - 1));
+            }
+        }
+        
+        Toast.makeText(this, "Đã tự động điền các đội ngẫu nhiên!", Toast.LENGTH_SHORT).show();
     }
 
     private void saveDraw() {
@@ -183,7 +210,8 @@ public class DrawCeremonyActivity extends AppCompatActivity {
         }
 
         btnSaveDraw.setEnabled(false);
-        btnSaveDraw.setText("Đang lưu kết quả...");
+        btnAutoDraw.setEnabled(false);
+        btnSaveDraw.setText("Đang lưu...");
 
         // Update matches
         db.collection("Matches")
@@ -242,14 +270,16 @@ public class DrawCeremonyActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(this, "Lỗi khi lưu bốc thăm", Toast.LENGTH_SHORT).show();
                             btnSaveDraw.setEnabled(true);
-                            btnSaveDraw.setText("Lưu kết quả bốc thăm");
+                            btnAutoDraw.setEnabled(true);
+                            btnSaveDraw.setText("Lưu kết quả");
                         }
                     });
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Không thể tải danh sách trận đấu", Toast.LENGTH_SHORT).show();
                     btnSaveDraw.setEnabled(true);
-                    btnSaveDraw.setText("Lưu kết quả bốc thăm");
+                    btnAutoDraw.setEnabled(true);
+                    btnSaveDraw.setText("Lưu kết quả");
                 });
     }
 

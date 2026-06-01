@@ -1,7 +1,10 @@
 package giangvc.cntt.ntu.footballhub.Activities;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -43,9 +46,12 @@ public class MatchDetailActivity extends AppCompatActivity {
 
     // View references
     private TextView tvTournamentName, tvDisplayTeam1, tvDisplayTeam2;
+    private TextView tvScore1, tvScore2;
+    private EditText etPenalty1, etPenalty2;
     private Spinner spinnerTeam1, spinnerTeam2, spinnerStatus;
-    private TextInputEditText etDate, etTime, etLocation, etReferee, etScore1, etScore2;
+    private TextInputEditText etDate, etTime, etLocation, etReferee;
     private LinearLayout layoutEventsContainer;
+    private LinearLayout layoutTeam1Events, layoutTeam2Events;
     private MaterialButton btnAddGoal, btnAddCard, btnUpdateMatch, btnDeleteMatch;
 
     private FirebaseFirestore db;
@@ -89,14 +95,22 @@ public class MatchDetailActivity extends AppCompatActivity {
         spinnerTeam2 = findViewById(R.id.spinnerTeam2);
         spinnerStatus = findViewById(R.id.spinnerStatus);
         
+        // Score displays (now TextView, auto-updated)
+        tvScore1 = findViewById(R.id.etScore1);
+        tvScore2 = findViewById(R.id.etScore2);
+        
+        etPenalty1 = findViewById(R.id.etPenalty1);
+        etPenalty2 = findViewById(R.id.etPenalty2);
+        
         etDate = findViewById(R.id.etDate);
         etTime = findViewById(R.id.etTime);
         etLocation = findViewById(R.id.etLocation);
         etReferee = findViewById(R.id.etReferee);
-        etScore1 = findViewById(R.id.etScore1);
-        etScore2 = findViewById(R.id.etScore2);
         
         layoutEventsContainer = findViewById(R.id.layoutEventsContainer);
+        layoutTeam1Events = findViewById(R.id.layoutTeam1Events);
+        layoutTeam2Events = findViewById(R.id.layoutTeam2Events);
+        
         btnAddGoal = findViewById(R.id.btnAddGoal);
         btnAddCard = findViewById(R.id.btnAddCard);
         btnUpdateMatch = findViewById(R.id.btnUpdateMatch);
@@ -130,8 +144,20 @@ public class MatchDetailActivity extends AppCompatActivity {
         etLocation.setText(currentMatch.getLocation());
         etReferee.setText(currentMatch.getReferee());
         
-        etScore1.setText(String.valueOf(currentMatch.getScoreTeam1()));
-        etScore2.setText(String.valueOf(currentMatch.getScoreTeam2()));
+        tvScore1.setText(String.valueOf(currentMatch.getScoreTeam1()));
+        tvScore2.setText(String.valueOf(currentMatch.getScoreTeam2()));
+        
+        if (currentMatch.getPenaltyTeam1() != null) {
+            etPenalty1.setText(String.valueOf(currentMatch.getPenaltyTeam1()));
+        } else {
+            etPenalty1.setText("");
+        }
+        
+        if (currentMatch.getPenaltyTeam2() != null) {
+            etPenalty2.setText(String.valueOf(currentMatch.getPenaltyTeam2()));
+        } else {
+            etPenalty2.setText("");
+        }
 
         for (int i = 0; i < statusValues.length; i++) {
             if (statusValues[i].equals(currentMatch.getStatus())) {
@@ -147,6 +173,9 @@ public class MatchDetailActivity extends AppCompatActivity {
                 restoreEventRow(event);
             }
         }
+        
+        // Update event summary display
+        refreshEventSummary();
     }
 
     private void loadTournamentData() {
@@ -242,6 +271,7 @@ public class MatchDetailActivity extends AppCompatActivity {
         Spinner spinPlayer = view.findViewById(R.id.spinnerPlayer);
         EditText etMinute = view.findViewById(R.id.etMinute);
         ImageButton btnRemove = view.findViewById(R.id.btnRemoveEvent);
+        TextView tvEventSummary = view.findViewById(R.id.tvEventSummary);
         
         // Setup Types
         String[] types = {MatchEvent.TYPE_GOAL, MatchEvent.TYPE_YELLOW, MatchEvent.TYPE_RED};
@@ -288,7 +318,14 @@ public class MatchDetailActivity extends AppCompatActivity {
                 List<Player> players = teamPlayersCache.get(selectedTeamId);
                 List<String> playerNames = new ArrayList<>();
                 if (players != null) {
-                    for (Player p : players) playerNames.add(p.getPlayerName() + " (" + p.getPlayerClass() + ")");
+                    for (Player p : players) {
+                        String display = p.getPlayerName();
+                        if (p.getJerseyNumber() > 0) {
+                            display = "#" + p.getJerseyNumber() + " " + display;
+                        }
+                        display += " (" + p.getPlayerClass() + ")";
+                        playerNames.add(display);
+                    }
                 } else {
                     playerNames.add("Chưa tải xong...");
                 }
@@ -305,18 +342,182 @@ public class MatchDetailActivity extends AppCompatActivity {
                         }
                     }
                 }
+                
+                // Auto-update score & summary
+                recalculateScore();
+                refreshEventSummary();
+            }
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
+        });
+        
+        // When Type changes → auto-update score (e.g. if switched from goal to card)
+        spinType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
+                recalculateScore();
+                refreshEventSummary();
+            }
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
+        });
+        
+        // When Player changes → update summary
+        spinPlayer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
+                refreshEventSummary();
             }
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
         
         if (existingEvent != null) etMinute.setText(String.valueOf(existingEvent.getMinute()));
         
-        btnRemove.setOnClickListener(v -> layoutEventsContainer.removeView(view));
+        btnRemove.setOnClickListener(v -> {
+            layoutEventsContainer.removeView(view);
+            recalculateScore();
+            refreshEventSummary();
+        });
         
         // Save references in the view tag for data extraction later
         view.setTag(new String[]{t1Id, t2Id, t1Name, t2Name});
         layoutEventsContainer.addView(view);
+        
+        // Recalculate after adding
+        recalculateScore();
+        refreshEventSummary();
     }
+    
+    // ── Auto-Score Calculation ──────────────────────────────────────────────────
+    
+    /** Đếm số bàn thắng mỗi đội từ danh sách sự kiện và cập nhật tỷ số tự động */
+    private void recalculateScore() {
+        int score1 = 0, score2 = 0;
+        
+        int pos1 = spinnerTeam1.getSelectedItemPosition();
+        int pos2 = spinnerTeam2.getSelectedItemPosition();
+        if (pos1 < 0 || pos2 < 0 || tournamentTeamIds.isEmpty()) return;
+        
+        String t1Id = tournamentTeamIds.get(pos1);
+        String t2Id = tournamentTeamIds.get(pos2);
+        
+        for (int i = 0; i < layoutEventsContainer.getChildCount(); i++) {
+            View view = layoutEventsContainer.getChildAt(i);
+            Spinner spinType = view.findViewById(R.id.spinnerType);
+            Spinner spinTeam = view.findViewById(R.id.spinnerTeam);
+            
+            if (spinType == null || spinTeam == null) continue;
+            
+            String type = spinType.getSelectedItem() != null ? spinType.getSelectedItem().toString() : "";
+            
+            // Chỉ đếm bàn thắng
+            if (MatchEvent.TYPE_GOAL.equals(type)) {
+                String[] teamData = (String[]) view.getTag();
+                if (teamData == null) continue;
+                int teamPos = spinTeam.getSelectedItemPosition();
+                if (teamPos < 0 || teamPos >= 2) continue;
+                String selectedTeamId = teamData[teamPos];
+                
+                if (selectedTeamId.equals(t1Id)) score1++;
+                else if (selectedTeamId.equals(t2Id)) score2++;
+            }
+        }
+        
+        tvScore1.setText(String.valueOf(score1));
+        tvScore2.setText(String.valueOf(score2));
+    }
+    
+    // ── Event Summary Display ──────────────────────────────────────────────────
+    
+    /** Hiển thị tóm tắt sự kiện bên cạnh tỷ số: tên cầu thủ, số áo, phút */
+    private void refreshEventSummary() {
+        layoutTeam1Events.removeAllViews();
+        layoutTeam2Events.removeAllViews();
+        
+        int pos1 = spinnerTeam1.getSelectedItemPosition();
+        int pos2 = spinnerTeam2.getSelectedItemPosition();
+        if (pos1 < 0 || pos2 < 0 || tournamentTeamIds.isEmpty()) return;
+        
+        String t1Id = tournamentTeamIds.get(pos1);
+        String t2Id = tournamentTeamIds.get(pos2);
+        
+        for (int i = 0; i < layoutEventsContainer.getChildCount(); i++) {
+            View view = layoutEventsContainer.getChildAt(i);
+            Spinner spinType = view.findViewById(R.id.spinnerType);
+            Spinner spinTeam = view.findViewById(R.id.spinnerTeam);
+            Spinner spinPlayer = view.findViewById(R.id.spinnerPlayer);
+            EditText etMinute = view.findViewById(R.id.etMinute);
+            
+            if (spinType == null || spinTeam == null || spinPlayer == null) continue;
+            
+            String type = spinType.getSelectedItem() != null ? spinType.getSelectedItem().toString() : "";
+            String[] teamData = (String[]) view.getTag();
+            if (teamData == null) continue;
+            int teamPos = spinTeam.getSelectedItemPosition();
+            if (teamPos < 0 || teamPos >= 2) continue;
+            String selectedTeamId = teamData[teamPos];
+            
+            // Lấy thông tin cầu thủ
+            String playerName = "???";
+            int jerseyNumber = 0;
+            int playerPos = spinPlayer.getSelectedItemPosition();
+            List<Player> players = teamPlayersCache.get(selectedTeamId);
+            if (players != null && playerPos >= 0 && playerPos < players.size()) {
+                Player p = players.get(playerPos);
+                playerName = p.getPlayerName();
+                jerseyNumber = p.getJerseyNumber();
+            }
+            
+            // Lấy phút
+            String minuteStr = etMinute.getText().toString().trim();
+            
+            // Tạo icon theo loại sự kiện
+            String icon;
+            int textColor;
+            switch (type) {
+                case MatchEvent.TYPE_GOAL:
+                    icon = "⚽";
+                    textColor = Color.parseColor("#2E7D32"); // xanh lá
+                    break;
+                case MatchEvent.TYPE_YELLOW:
+                    icon = "🟡";
+                    textColor = Color.parseColor("#F9A825"); // vàng đậm
+                    break;
+                case MatchEvent.TYPE_RED:
+                    icon = "🔴";
+                    textColor = Color.parseColor("#C62828"); // đỏ
+                    break;
+                default:
+                    icon = "📌";
+                    textColor = Color.parseColor("#757575");
+                    break;
+            }
+            
+            // Format: ⚽ #7 Nguyễn Văn A (45')
+            StringBuilder sb = new StringBuilder();
+            sb.append(icon).append(" ");
+            if (jerseyNumber > 0) sb.append("#").append(jerseyNumber).append(" ");
+            sb.append(playerName);
+            if (!minuteStr.isEmpty()) sb.append(" (").append(minuteStr).append("')");
+            
+            // Tạo TextView cho sự kiện
+            TextView tvEvent = new TextView(this);
+            tvEvent.setText(sb.toString());
+            tvEvent.setTextSize(12);
+            tvEvent.setTextColor(textColor);
+            tvEvent.setTypeface(null, Typeface.BOLD);
+            tvEvent.setPadding(0, 2, 0, 2);
+            
+            // Thêm vào cột tương ứng
+            if (selectedTeamId.equals(t1Id)) {
+                tvEvent.setGravity(Gravity.END);
+                layoutTeam1Events.addView(tvEvent);
+            } else if (selectedTeamId.equals(t2Id)) {
+                tvEvent.setGravity(Gravity.START);
+                layoutTeam2Events.addView(tvEvent);
+            }
+        }
+    }
+    
+    // ── Extract Events for Saving ──────────────────────────────────────────────
     
     private List<MatchEvent> extractEvents() {
         List<MatchEvent> events = new ArrayList<>();
@@ -337,19 +538,21 @@ public class MatchDetailActivity extends AppCompatActivity {
             
             String playerId = "";
             String playerName = "Unknown";
+            int jerseyNumber = 0;
             int playerPos = spinPlayer.getSelectedItemPosition();
             List<Player> players = teamPlayersCache.get(teamId);
             if (players != null && playerPos >= 0 && playerPos < players.size()) {
                 Player p = players.get(playerPos);
                 playerId = p.getPlayerId();
                 playerName = p.getPlayerName();
+                jerseyNumber = p.getJerseyNumber();
             }
             
             int minute = 0;
             try { minute = Integer.parseInt(etMinute.getText().toString()); } catch (Exception ignored) {}
             
             String eventId = db.collection("Events").document().getId();
-            events.add(new MatchEvent(eventId, type, teamId, teamName, playerId, playerName, minute));
+            events.add(new MatchEvent(eventId, type, teamId, teamName, playerId, playerName, jerseyNumber, minute));
         }
         return events;
     }
@@ -371,15 +574,12 @@ public class MatchDetailActivity extends AppCompatActivity {
         String t2Id = tournamentTeamIds.get(pos2);
         String t2Name = tournamentTeamNames.get(pos2);
 
-        String s1 = etScore1.getText() != null ? etScore1.getText().toString().trim() : "0";
-        String s2 = etScore2.getText() != null ? etScore2.getText().toString().trim() : "0";
-        String status = statusValues[spinnerStatus.getSelectedItemPosition()];
-        
+        // Tỷ số được tính tự động từ số bàn thắng
         int score1 = 0, score2 = 0;
-        try {
-            if (!TextUtils.isEmpty(s1)) score1 = Integer.parseInt(s1);
-            if (!TextUtils.isEmpty(s2)) score2 = Integer.parseInt(s2);
-        } catch (NumberFormatException ignored) {}
+        try { score1 = Integer.parseInt(tvScore1.getText().toString()); } catch (NumberFormatException ignored) {}
+        try { score2 = Integer.parseInt(tvScore2.getText().toString()); } catch (NumberFormatException ignored) {}
+
+        String status = statusValues[spinnerStatus.getSelectedItemPosition()];
 
         Map<String, Object> updates = new HashMap<>();
         updates.put("team1Id", t1Id);
@@ -392,18 +592,122 @@ public class MatchDetailActivity extends AppCompatActivity {
         updates.put("referee", getText(etReferee));
         updates.put("scoreTeam1", score1);
         updates.put("scoreTeam2", score2);
+        
+        Integer pen1 = null;
+        Integer pen2 = null;
+        try { pen1 = Integer.parseInt(etPenalty1.getText().toString()); } catch (NumberFormatException ignored) {}
+        try { pen2 = Integer.parseInt(etPenalty2.getText().toString()); } catch (NumberFormatException ignored) {}
+        updates.put("penaltyTeam1", pen1);
+        updates.put("penaltyTeam2", pen2);
+        
         updates.put("status", status);
         updates.put("events", extractEvents());
 
         btnUpdateMatch.setEnabled(false);
+        
+        // Final variables for lambda
+        final int finalScore1 = score1;
+        final int finalScore2 = score2;
+        final String finalT1Id = t1Id;
+        final String finalT1Name = t1Name;
+        final String finalT2Id = t2Id;
+        final String finalT2Name = t2Name;
+        
+        final Integer finalPen1 = pen1;
+        final Integer finalPen2 = pen2;
+        
         db.collection(COLLECTION).document(matchId).update(updates)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Đã lưu thông tin trận đấu!", Toast.LENGTH_SHORT).show();
-                    finish();
+                    if (Match.STATUS_FINISHED.equals(status) && currentMatch != null && currentMatch.getMatchOrder() > 0) {
+                        // Determine winner based on main score, then penalties
+                        String winnerId = null;
+                        String winnerName = null;
+                        String loserId = null;
+                        String loserName = null;
+                        
+                        if (finalScore1 > finalScore2) {
+                            winnerId = finalT1Id; winnerName = finalT1Name;
+                            loserId = finalT2Id; loserName = finalT2Name;
+                        } else if (finalScore1 < finalScore2) {
+                            winnerId = finalT2Id; winnerName = finalT2Name;
+                            loserId = finalT1Id; loserName = finalT1Name;
+                        } else if (finalPen1 != null && finalPen2 != null && !finalPen1.equals(finalPen2)) {
+                            // Penalty tie break
+                            if (finalPen1 > finalPen2) {
+                                winnerId = finalT1Id; winnerName = finalT1Name;
+                                loserId = finalT2Id; loserName = finalT2Name;
+                            } else {
+                                winnerId = finalT2Id; winnerName = finalT2Name;
+                                loserId = finalT1Id; loserName = finalT1Name;
+                            }
+                        }
+                        
+                        if (winnerId != null) {
+                            handleKnockoutAdvancement(winnerId, winnerName, loserId, loserName);
+                        } else {
+                            Toast.makeText(this, "Đã lưu thông tin trận đấu!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    } else {
+                        Toast.makeText(this, "Đã lưu thông tin trận đấu!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     btnUpdateMatch.setEnabled(true);
+                });
+    }
+
+    private void handleKnockoutAdvancement(String winnerId, String winnerName, String loserId, String loserName) {
+        long matchOrder = currentMatch.getMatchOrder();
+        String winPlaceholder = "Thắng Trận " + matchOrder;
+        String losePlaceholder = "Thua Trận " + matchOrder;
+
+        db.collection(COLLECTION)
+                .whereEqualTo("tournamentId", currentMatch.getTournamentId())
+                .get()
+                .addOnSuccessListener(snapshots -> {
+                    com.google.firebase.firestore.WriteBatch batch = db.batch();
+                    boolean hasUpdates = false;
+                    for (QueryDocumentSnapshot doc : snapshots) {
+                        Match nextMatch = doc.toObject(Match.class);
+                        Map<String, Object> nextUpdates = new HashMap<>();
+                        
+                        if (winPlaceholder.equals(nextMatch.getTeam1Name())) {
+                            nextUpdates.put("team1Id", winnerId);
+                            nextUpdates.put("team1Name", winnerName);
+                        } else if (winPlaceholder.equals(nextMatch.getTeam2Name())) {
+                            nextUpdates.put("team2Id", winnerId);
+                            nextUpdates.put("team2Name", winnerName);
+                        }
+                        
+                        if (losePlaceholder.equals(nextMatch.getTeam1Name())) {
+                            nextUpdates.put("team1Id", loserId);
+                            nextUpdates.put("team1Name", loserName);
+                        } else if (losePlaceholder.equals(nextMatch.getTeam2Name())) {
+                            nextUpdates.put("team2Id", loserId);
+                            nextUpdates.put("team2Name", loserName);
+                        }
+                        
+                        if (!nextUpdates.isEmpty()) {
+                            batch.update(doc.getReference(), nextUpdates);
+                            hasUpdates = true;
+                        }
+                    }
+                    if (hasUpdates) {
+                        batch.commit().addOnCompleteListener(task -> {
+                            Toast.makeText(this, "Đã lưu & Cập nhật đội đi tiếp!", Toast.LENGTH_LONG).show();
+                            finish();
+                        });
+                    } else {
+                        Toast.makeText(this, "Đã lưu thông tin trận đấu!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Đã lưu, nhưng không cập nhật được nhánh đấu: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    finish();
                 });
     }
 

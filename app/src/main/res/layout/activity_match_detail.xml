@@ -190,7 +190,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:layout_marginBottom="16dp">
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:id="@+id/tvDisplayTeam1"
@@ -202,14 +202,14 @@
                             android:textStyle="bold"
                             android:gravity="center" />
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <TextView
                             android:id="@+id/etScore1"
                             android:layout_width="60dp"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
                             android:text="0"
-                            android:textSize="24sp"
+                            android:textSize="28sp"
                             android:textStyle="bold"
+                            android:textColor="#8E24AA"
                             android:gravity="center"
                             android:background="@drawable/bg_format_unselected"
                             android:padding="8dp" />
@@ -218,18 +218,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-"
-                            android:textSize="24sp"
+                            android:textSize="28sp"
                             android:textStyle="bold"
                             android:layout_marginHorizontal="12dp" />
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <TextView
                             android:id="@+id/etScore2"
                             android:layout_width="60dp"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
                             android:text="0"
-                            android:textSize="24sp"
+                            android:textSize="28sp"
                             android:textStyle="bold"
+                            android:textColor="#8E24AA"
                             android:gravity="center"
                             android:background="@drawable/bg_format_unselected"
                             android:padding="8dp" />
@@ -243,6 +243,100 @@
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:gravity="center" />
+                    </LinearLayout>
+
+                    <!-- Penalty layout -->
+                    <LinearLayout
+                        android:id="@+id/layoutPenalty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="(Luân lưu)"
+                            android:textSize="12sp"
+                            android:gravity="end"
+                            android:paddingEnd="8dp" />
+
+                        <EditText
+                            android:id="@+id/etPenalty1"
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:hint="-"
+                            android:textSize="16sp"
+                            android:textColor="#E65100"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:background="@drawable/bg_format_unselected"
+                            android:padding="4dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="16sp"
+                            android:layout_marginHorizontal="8dp" />
+
+                        <EditText
+                            android:id="@+id/etPenalty2"
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:hint="-"
+                            android:textSize="16sp"
+                            android:textColor="#E65100"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:background="@drawable/bg_format_unselected"
+                            android:padding="4dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="(Luân lưu)"
+                            android:textSize="12sp"
+                            android:gravity="start"
+                            android:paddingStart="8dp" />
+                    </LinearLayout>
+
+                    <!-- Tóm tắt sự kiện 2 bên -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="12dp">
+
+                        <!-- Sự kiện Đội 1 (bên trái, align phải) -->
+                        <LinearLayout
+                            android:id="@+id/layoutTeam1Events"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="end"
+                            android:paddingEnd="8dp" />
+
+                        <!-- Đường phân cách giữa -->
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#E0E0E0" />
+
+                        <!-- Sự kiện Đội 2 (bên phải, align trái) -->
+                        <LinearLayout
+                            android:id="@+id/layoutTeam2Events"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="start"
+                            android:paddingStart="8dp" />
                     </LinearLayout>
 
                     <Spinner

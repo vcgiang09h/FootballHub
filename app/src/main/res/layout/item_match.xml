@@ -128,6 +128,43 @@
                 android:ellipsize="end" />
         </LinearLayout>
 
+        <!-- Events Summary -->
+        <LinearLayout
+            android:id="@+id/layoutEventsSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="12dp"
+            android:visibility="gone">
+
+            <!-- Events Team 1 -->
+            <LinearLayout
+                android:id="@+id/layoutItemTeam1Events"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="end"
+                android:paddingEnd="8dp" />
+
+            <!-- Separator -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#E0E0E0" />
+
+            <!-- Events Team 2 -->
+            <LinearLayout
+                android:id="@+id/layoutItemTeam2Events"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="start"
+                android:paddingStart="8dp" />
+        </LinearLayout>
+
         <!-- Footer: Date, Time, Location -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -137,13 +174,28 @@
             android:paddingBottom="12dp"
             android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/tvMatchDateTime"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="📅 01/01/2026 - 15:30"
-                android:textSize="12sp"
-                android:textColor="@color/text_secondary" />
+                android:orientation="vertical">
+                
+                <TextView
+                    android:id="@+id/tvMatchDateTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📅 01/01/2026 - 15:30"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary" />
+                
+                <TextView
+                    android:id="@+id/tvMatchLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📍 Sân thi đấu"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
 
             <Space
                 android:layout_width="0dp"

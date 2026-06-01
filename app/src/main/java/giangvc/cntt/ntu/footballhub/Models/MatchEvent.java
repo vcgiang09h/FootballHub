@@ -11,18 +11,20 @@ public class MatchEvent {
     private String teamName;
     private String playerId;
     private String playerName;
+    private int playerJerseyNumber;
     private int minute;
 
     public MatchEvent() {}
 
     public MatchEvent(String id, String type, String teamId, String teamName, 
-                      String playerId, String playerName, int minute) {
+                      String playerId, String playerName, int playerJerseyNumber, int minute) {
         this.id = id;
         this.type = type;
         this.teamId = teamId;
         this.teamName = teamName;
         this.playerId = playerId;
         this.playerName = playerName;
+        this.playerJerseyNumber = playerJerseyNumber;
         this.minute = minute;
     }
 
@@ -43,6 +45,9 @@ public class MatchEvent {
 
     public String getPlayerName() { return playerName; }
     public void setPlayerName(String playerName) { this.playerName = playerName; }
+
+    public int getPlayerJerseyNumber() { return playerJerseyNumber; }
+    public void setPlayerJerseyNumber(int playerJerseyNumber) { this.playerJerseyNumber = playerJerseyNumber; }
 
     public int getMinute() { return minute; }
     public void setMinute(int minute) { this.minute = minute; }

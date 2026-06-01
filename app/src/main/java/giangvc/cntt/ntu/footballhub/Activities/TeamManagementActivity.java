@@ -90,8 +90,22 @@ public class TeamManagementActivity extends AppCompatActivity {
             }
         });
 
-        // ── READ: Click item → TeamDetailActivity ─────────────────────────────
+        // ── READ: Click item → PlayerManagementActivity ─────────────────────────────
         teamAdapter.setOnTeamClickListener(team -> {
+            Intent intent = new Intent(this, PlayerManagementActivity.class);
+            intent.putExtra(PlayerManagementActivity.EXTRA_TEAM_ID,   team.getTeamId());
+            intent.putExtra(PlayerManagementActivity.EXTRA_TEAM_NAME, team.getTeamName());
+            intent.putExtra("TEAM_CLASS", team.getTeamClass());
+            intent.putExtra("CAPTAIN_NAME", team.getCaptainName());
+            intent.putExtra("CAPTAIN_CLASS", team.getCaptainClass());
+            intent.putExtra("CAPTAIN_STUDENT_ID", team.getCaptainStudentId());
+            intent.putExtra("CAPTAIN_PHONE", team.getCaptainPhone());
+            intent.putExtra("CAPTAIN_EMAIL", team.getCaptainEmail());
+            startActivity(intent);
+        });
+
+        // ── EDIT/DELETE: Long-click item → TeamDetailActivity ───────────────────
+        teamAdapter.setOnTeamLongClickListener(team -> {
             Intent intent = new Intent(this, TeamDetailActivity.class);
             intent.putExtra(TeamDetailActivity.EXTRA_TEAM_ID,    team.getTeamId());
             intent.putExtra(TeamDetailActivity.EXTRA_TEAM_NAME,  team.getTeamName());
@@ -104,16 +118,15 @@ public class TeamManagementActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // ── DELETE: Long-click → Dialog xác nhận xóa nhanh ───────────────────
-        teamAdapter.setOnTeamLongClickListener(team ->
-                showQuickDeleteDialog(team)
-        );
-
         // ── CREATE: FAB → AddTeamActivity ─────────────────────────────────────
         fabAddTeam.setOnClickListener(v ->
                 startActivity(new Intent(this, AddTeamActivity.class))
         );
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         listenToTeams();
     }
 

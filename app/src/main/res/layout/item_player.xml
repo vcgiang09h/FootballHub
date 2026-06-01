@@ -66,13 +66,23 @@
                 android:maxLines="1"
                 android:ellipsize="end" />
 
+            <!-- Số áo & Vị trí -->
+            <TextView
+                android:id="@+id/tvPlayerJerseyPosition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số áo: -- | Vị trí: --"
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginTop="4dp" />
+
             <!-- Lớp -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="4dp">
+                android:layout_marginTop="2dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -90,16 +100,6 @@
                     android:maxLines="1"
                     android:ellipsize="end" />
             </LinearLayout>
-
-            <!-- MSSV -->
-            <TextView
-                android:id="@+id/tvStudentId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MSSV: 63130000"
-                android:textSize="12sp"
-                android:textColor="@color/text_secondary"
-                android:layout_marginTop="2dp" />
         </LinearLayout>
 
     </LinearLayout>

@@ -1,52 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- item_match_event.xml — Dòng sự kiện trận đấu (bàn thắng / thẻ phạt) -->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="#FFFFFF">
 
-    <Spinner
-        android:id="@+id/spinnerTeam"
-        android:layout_width="0dp"
-        android:layout_weight="2"
-        android:layout_height="40dp"
-        android:layout_marginEnd="4dp"
-        android:background="@drawable/bg_format_unselected" />
-        
-    <Spinner
-        android:id="@+id/spinnerType"
-        android:layout_width="0dp"
-        android:layout_weight="1.5"
-        android:layout_height="40dp"
-        android:layout_marginEnd="4dp"
-        android:background="@drawable/bg_format_unselected" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <Spinner
-        android:id="@+id/spinnerPlayer"
-        android:layout_width="0dp"
-        android:layout_weight="2.5"
-        android:layout_height="40dp"
-        android:layout_marginEnd="4dp"
-        android:background="@drawable/bg_format_unselected" />
+        <!-- Row 1: Đội + Loại sự kiện -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="6dp">
 
-    <EditText
-        android:id="@+id/etMinute"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="40dp"
-        android:hint="Phút"
-        android:inputType="number"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:background="@drawable/bg_format_unselected" />
-        
-    <ImageButton
-        android:id="@+id/btnRemoveEvent"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@android:drawable/ic_delete"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:layout_marginStart="4dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đội:"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#757575"
+                android:layout_marginEnd="6dp" />
 
-</LinearLayout>
+            <Spinner
+                android:id="@+id/spinnerTeam"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="38dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_format_unselected" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loại:"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#757575"
+                android:layout_marginEnd="6dp" />
+
+            <Spinner
+                android:id="@+id/spinnerType"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="38dp"
+                android:background="@drawable/bg_format_unselected" />
+        </LinearLayout>
+
+        <!-- Row 2: Cầu thủ + Phút + Xóa -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⚽"
+                android:textSize="14sp"
+                android:layout_marginEnd="6dp" />
+
+            <Spinner
+                android:id="@+id/spinnerPlayer"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="38dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_format_unselected" />
+
+            <EditText
+                android:id="@+id/etMinute"
+                android:layout_width="56dp"
+                android:layout_height="38dp"
+                android:hint="Phút"
+                android:inputType="number"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:background="@drawable/bg_format_unselected"
+                android:layout_marginEnd="6dp" />
+
+            <ImageButton
+                android:id="@+id/btnRemoveEvent"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@android:drawable/ic_delete"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Xóa sự kiện" />
+        </LinearLayout>
+
+        <!-- Row 3: Hiển thị tóm tắt (ẩn khi chỉnh sửa, hiện sau khi chọn) -->
+        <TextView
+            android:id="@+id/tvEventSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textColor="#8E24AA"
+            android:textStyle="italic"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -78,11 +78,26 @@
         android:background="#FFFFFF">
         
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSaveDraw"
-            android:layout_width="match_parent"
+            android:id="@+id/btnAutoDraw"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="56dp"
-            android:text="Lưu kết quả bốc thăm"
-            android:textSize="16sp"
+            android:text="Bốc Ngẫu Nhiên"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/green_primary"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/green_primary"
+            app:cornerRadius="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveDraw"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="56dp"
+            android:text="Lưu kết quả"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/text_on_dark"
             app:backgroundTint="@color/green_primary"

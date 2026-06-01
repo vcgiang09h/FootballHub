@@ -217,8 +217,8 @@ public class MatchScheduleActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         if (listenerRegistration != null) listenerRegistration.remove();
     }
 
