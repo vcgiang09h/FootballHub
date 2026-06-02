@@ -16,13 +16,8 @@
 
 Trang đăng nhập/Đăng ký:
 
-<img width="1080" height="2400" alt="Screenshot_2026-06-02-14-05-08-435_giangvc cntt ntu footballhub 1" src="https://github.com/user-attachments/assets/ecac5af4-7249-4739-b428-8c187a74157c" />
-
-<img width="467" height="983" alt="image" src="https://github.com/user-attachments/assets/e768f048-a605-4306-834e-7cb023ec1120" />
-<img width="473" height="981" alt="image" src="https://github.com/user-attachments/assets/ceba8506-0635-4920-baa2-b30781a52bc7" />
-
-<img width="1080" height="2400" alt="Screenshot_2026-06-02-15-04-48-120_giangvc cntt ntu footballhub 1" src="https://github.com/user-attachments/assets/5e948304-617f-4b12-8f9b-103dd9d01e4b" />
-<img width="1080" height="2400" alt="Screenshot_2026-06-02-15-04-54-407_giangvc cntt ntu footballhub 1" src="https://github.com/user-attachments/assets/8ef84b90-0924-4818-90fb-54fffa18a923" />
+<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/5e948304-617f-4b12-8f9b-103dd9d01e4b" />
+<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/8ef84b90-0924-4818-90fb-54fffa18a923" />
 
 ---
 Trang chủ:
