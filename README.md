@@ -1,4 +1,4 @@
-<img width="1080" height="2400" alt="Screenshot_2026-06-02-15-30-44-881_giangvc cntt ntu footballhub 1" src="https://github.com/user-attachments/assets/79b42c35-b2c6-47de-85de-1b91c642de2f" /># ỨNG DỤNG FOOTBALLHUB
+# ỨNG DỤNG FOOTBALLHUB
 
 > Ứng dụng quản lý giải bóng đá sinh viên truyền thống Khoa Công nghệ Thông tin - Trường Đại học Nha Trang (FootballHub)
 > Sinh viên: Võ Công Giang - 65.CNTT-1
