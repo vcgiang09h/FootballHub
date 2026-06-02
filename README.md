@@ -1,14 +1,15 @@
 # ỨNG DỤNG FOOTBALLHUB
 
+> Ứng dụng quản lý giải bóng đá sinh viên truyền thống Khoa Công nghệ Thông tin - Trường Đại học Nha Trang (FootballHub)
 > Sinh viên: Võ Công Giang - 65.CNTT-1
 
 ## Install:
 - Android Studio
 - Android 7.0 (Nougat API 24)
 - Java Language
-- File doc mô tả dự án(Đang update): https://docs.google.com/document/d/1nkMddNCZEvGBDIjKuRqn8xNTTMH3Edf00Oy2cg_7wz8/edit?usp=sharing
+- File doc mô tả dự án (Đang update): https://docs.google.com/document/d/1nkMddNCZEvGBDIjKuRqn8xNTTMH3Edf00Oy2cg_7wz8/edit?usp=sharing
 
-*Mô tả ứng dụng*: Ứng dụng di động (Android/Java) hỗ trợ số hóa toàn bộ quy trình quản lý giải bóng đá sinh viên. Tích hợp các chức năng quản lý đội bóng, tự động cập nhật bảng xếp hạng thời gian thực (Firebase) và ứng dụng thuật toán AI để phân tích phong độ, dự đoán kết quả trận đấu.
+*Mô tả ứng dụng*: Ứng dụng di động (Android/Java) hỗ trợ số hóa toàn bộ quy trình quản lý giải bóng đá sinh viên truyền thống Khoa Công nghệ Thông tin - Trường Đại học Nha Trang. Tích hợp các chức năng quản lý đội bóng, tự động cập nhật bảng xếp hạng thời gian thực (Firebase) và thống kê mùa giải
 
 
 *Một số hình ảnh ứng dụng*
