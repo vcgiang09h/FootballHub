@@ -67,7 +67,7 @@
                     android:id="@+id/tvHeaderFormat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🥊 Đá loại trực tiếp"
+                    android:text="Đá loại trực tiếp"
                     android:textSize="13sp"
                     android:textColor="#CCFFFFFF"
                     android:layout_marginTop="4dp" />

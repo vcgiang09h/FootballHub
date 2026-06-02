@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.card.MaterialCardView;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialCardView cardMatchSchedule;
     private MaterialCardView cardStats;
     private MaterialCardView cardDrawCeremony;
-    private MaterialCardView cardLogout;
+    private LinearLayout cardLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

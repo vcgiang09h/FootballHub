@@ -76,7 +76,7 @@
                 android:textColor="@color/text_secondary"
                 android:layout_marginTop="4dp" />
 
-            <!-- Lớp -->
+            <!-- Chi đoàn -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                     android:id="@+id/tvPlayerClass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lớp: 63CNTT-1"
+                    android:text="Chi đoàn: 63CNTT-1"
                     android:textSize="13sp"
                     android:textColor="@color/text_secondary"
                     android:maxLines="1"

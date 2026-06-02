@@ -128,8 +128,7 @@ public class MatchDetailActivity extends AppCompatActivity {
         db.collection(COLLECTION).document(matchId).get().addOnSuccessListener(doc -> {
             currentMatch = doc.toObject(Match.class);
             if (currentMatch != null) {
-                populateMatchData();
-                loadTournamentData(); // Load tournament teams after match is loaded
+                loadTournamentData();
             }
         });
     }
@@ -199,7 +198,12 @@ public class MatchDetailActivity extends AppCompatActivity {
                 tournamentTeamNames.addAll(currentTournament.getTeamNames());
                 
                 setupTeamSpinners();
+                loadPlayersForMatchTeamsAndPopulate();
+            } else {
+                loadPlayersForMatchTeamsAndPopulate();
             }
+        }).addOnFailureListener(e -> {
+            loadPlayersForMatchTeamsAndPopulate();
         });
     }
 
@@ -224,11 +228,43 @@ public class MatchDetailActivity extends AppCompatActivity {
         };
         spinnerTeam1.setOnItemSelectedListener(listener);
         spinnerTeam2.setOnItemSelectedListener(listener);
+    }
+
+    private void loadPlayersForMatchTeamsAndPopulate() {
+        String t1 = currentMatch.getTeam1Id() != null ? currentMatch.getTeam1Id() : "";
+        String t2 = currentMatch.getTeam2Id() != null ? currentMatch.getTeam2Id() : "";
         
-        // Pre-fetch players for all teams in this tournament to make UI responsive
-        for (String tId : currentTournament.getTeamIds()) {
-            if (!tId.isEmpty()) fetchPlayersForTeam(tId);
-        }
+        db.collection("Players").whereEqualTo("teamId", t1).get().addOnSuccessListener(task1 -> {
+            List<Player> p1 = new ArrayList<>();
+            for (QueryDocumentSnapshot d : task1) {
+                Player p = d.toObject(Player.class); p.setPlayerId(d.getId()); p1.add(p);
+            }
+            teamPlayersCache.put(t1, p1);
+            
+            db.collection("Players").whereEqualTo("teamId", t2).get().addOnSuccessListener(task2 -> {
+                List<Player> p2 = new ArrayList<>();
+                for (QueryDocumentSnapshot d : task2) {
+                    Player p = d.toObject(Player.class); p.setPlayerId(d.getId()); p2.add(p);
+                }
+                teamPlayersCache.put(t2, p2);
+                
+                // Now it's safe to populate data
+                populateMatchData();
+                
+                // Fetch remaining teams in background
+                if (currentTournament != null && currentTournament.getTeamIds() != null) {
+                    for (String tId : currentTournament.getTeamIds()) {
+                        if (tId != null && !tId.isEmpty() && !teamPlayersCache.containsKey(tId)) {
+                            fetchPlayersForTeam(tId);
+                        }
+                    }
+                }
+            }).addOnFailureListener(e -> {
+                populateMatchData();
+            });
+        }).addOnFailureListener(e -> {
+            populateMatchData();
+        });
     }
 
     private void updateTeamDisplays() {
@@ -274,7 +310,7 @@ public class MatchDetailActivity extends AppCompatActivity {
         TextView tvEventSummary = view.findViewById(R.id.tvEventSummary);
         
         // Setup Types
-        String[] types = {MatchEvent.TYPE_GOAL, MatchEvent.TYPE_YELLOW, MatchEvent.TYPE_RED};
+        String[] types = {MatchEvent.TYPE_GOAL, MatchEvent.TYPE_OWN_GOAL, MatchEvent.TYPE_YELLOW, MatchEvent.TYPE_RED};
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, types);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinType.setAdapter(typeAdapter);
@@ -408,16 +444,22 @@ public class MatchDetailActivity extends AppCompatActivity {
             
             String type = spinType.getSelectedItem() != null ? spinType.getSelectedItem().toString() : "";
             
-            // Chỉ đếm bàn thắng
-            if (MatchEvent.TYPE_GOAL.equals(type)) {
+            // Chỉ đếm bàn thắng hoặc phản lưới nhà
+            if (MatchEvent.TYPE_GOAL.equals(type) || MatchEvent.TYPE_OWN_GOAL.equals(type)) {
                 String[] teamData = (String[]) view.getTag();
                 if (teamData == null) continue;
                 int teamPos = spinTeam.getSelectedItemPosition();
                 if (teamPos < 0 || teamPos >= 2) continue;
                 String selectedTeamId = teamData[teamPos];
                 
-                if (selectedTeamId.equals(t1Id)) score1++;
-                else if (selectedTeamId.equals(t2Id)) score2++;
+                if (MatchEvent.TYPE_OWN_GOAL.equals(type)) {
+                    // Phản lưới nhà tính điểm cho đối thủ
+                    if (selectedTeamId.equals(t1Id)) score2++;
+                    else if (selectedTeamId.equals(t2Id)) score1++;
+                } else {
+                    if (selectedTeamId.equals(t1Id)) score1++;
+                    else if (selectedTeamId.equals(t2Id)) score2++;
+                }
             }
         }
         
@@ -476,6 +518,10 @@ public class MatchDetailActivity extends AppCompatActivity {
                 case MatchEvent.TYPE_GOAL:
                     icon = "⚽";
                     textColor = Color.parseColor("#2E7D32"); // xanh lá
+                    break;
+                case MatchEvent.TYPE_OWN_GOAL:
+                    icon = "❌⚽";
+                    textColor = Color.parseColor("#E65100"); // cam đậm
                     break;
                 case MatchEvent.TYPE_YELLOW:
                     icon = "🟡";

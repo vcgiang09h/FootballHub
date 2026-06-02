@@ -2,6 +2,7 @@ package giangvc.cntt.ntu.footballhub.Models;
 
 public class MatchEvent {
     public static final String TYPE_GOAL = "Bàn thắng";
+    public static final String TYPE_OWN_GOAL = "Phản lưới nhà";
     public static final String TYPE_YELLOW = "Thẻ vàng";
     public static final String TYPE_RED = "Thẻ đỏ";
 

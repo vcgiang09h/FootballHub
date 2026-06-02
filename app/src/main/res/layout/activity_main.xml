@@ -23,63 +23,63 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_header_gradient"
                 android:paddingStart="24dp"
+                android:paddingTop="24dp"
                 android:paddingEnd="24dp"
-                android:paddingTop="48dp"
                 android:paddingBottom="48dp">
 
                 <!-- Decorative circle top-right -->
                 <View
                     android:layout_width="160dp"
                     android:layout_height="160dp"
-                    android:background="@drawable/bg_avatar_circle"
-                    android:alpha="0.05"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="-40dp"
-                    android:layout_marginEnd="-40dp" />
+                    android:layout_marginEnd="-40dp"
+                    android:alpha="0.05"
+                    android:background="@drawable/bg_avatar_circle" />
 
                 <!-- Decorative circle bottom-left -->
                 <View
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/bg_avatar_circle"
-                    android:alpha="0.03"
-                    android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="-30dp"
                     android:layout_marginBottom="-30dp"
-                    android:layout_marginStart="-30dp" />
+                    android:alpha="0.03"
+                    android:background="@drawable/bg_avatar_circle" />
 
                 <!-- Top row: app name + avatar -->
                 <LinearLayout
                     android:id="@+id/layoutTopRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_alignParentTop="true"
                     android:gravity="center_vertical"
-                    android:layout_alignParentTop="true">
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-                        
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="⚽"
-                            android:textSize="20sp"
-                            android:layout_marginEnd="8dp"/>
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="⚽"
+                            android:textSize="30sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.05"
                             android:text="FootballHub"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
                             android:textColor="#1B2A1D"
-                            android:letterSpacing="0.05" />
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <!-- Avatar circle -->
@@ -94,9 +94,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="A"
+                            android:textColor="#FFFFFF"
                             android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#FFFFFF" />
+                            android:textStyle="bold" />
 
                     </FrameLayout>
 
@@ -107,22 +107,22 @@
                     android:id="@+id/tvWelcome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Xin chào, voconggiang.ntu!"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="#1B2A1D"
                     android:layout_below="@id/layoutTopRow"
-                    android:layout_marginTop="24dp" />
+                    android:layout_marginTop="24dp"
+                    android:text="Xin chào, voconggiang.ntu!"
+                    android:textColor="#1B2A1D"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hệ thống quản lý giải đấu bóng đá"
-                    android:textSize="13sp"
-                    android:textColor="#5A6F5C"
                     android:layout_below="@id/tvWelcome"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginTop="4dp"
+                    android:text="Hệ thống quản lý giải bóng đá Sinh viên truyền thống Khoa Công nghệ Thông tin - Trường Đại học Nha Trang"
+                    android:textColor="#FFF7F7"
+                    android:textSize="13sp" />
 
             </RelativeLayout>
 
@@ -193,7 +193,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Managing the teams"
+                                    android:text="Quản lý danh sách đội bóng"
                                     android:textSize="10sp"
                                     android:textColor="#5A6F5C"
                                     android:layout_marginTop="2dp" />
@@ -243,7 +243,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Create &amp; manage tournament"
+                                    android:text="Tạo và quản lý giải đấu"
                                     android:textSize="10sp"
                                     android:textColor="#5A6F5C"
                                     android:layout_marginTop="2dp" />
@@ -302,7 +302,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Match tracking"
+                                    android:text="Theo dõi lịch thi đấu"
                                     android:textSize="10sp"
                                     android:textColor="#5A6F5C"
                                     android:layout_marginTop="2dp" />
@@ -352,7 +352,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Results &amp; ranking"
+                                    android:text="Kết quả và thống kê"
                                     android:textSize="10sp"
                                     android:textColor="#5A6F5C"
                                     android:layout_marginTop="2dp" />
@@ -384,9 +384,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🎲"
-                            android:textSize="28sp"
-                            android:layout_marginEnd="16dp" />
+                            android:layout_marginEnd="16dp"
+                            android:text="🗳️"
+                            android:textSize="28sp" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -439,7 +439,7 @@
                         android:orientation="horizontal"
                         android:padding="16dp"
                         android:gravity="center_vertical"
-                        android:background="?android:attr/selectableItemBackground"
+                        android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true">
 
@@ -474,7 +474,7 @@
                         android:orientation="horizontal"
                         android:padding="16dp"
                         android:gravity="center_vertical"
-                        android:background="?android:attr/selectableItemBackground"
+                        android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true">
 
@@ -509,7 +509,7 @@
                         android:orientation="horizontal"
                         android:padding="16dp"
                         android:gravity="center_vertical"
-                        android:background="?android:attr/selectableItemBackground"
+                        android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true">
 

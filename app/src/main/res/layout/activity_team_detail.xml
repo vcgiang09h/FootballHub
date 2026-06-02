@@ -170,11 +170,11 @@
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Tên lớp đội bóng -->
+                    <!-- Chi đoàn đội bóng -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lớp đội bóng"
+                        android:text="Chi đoàn đội bóng"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_secondary"
@@ -183,7 +183,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Nhập lớp..."
+                        android:hint="Nhập chi đoàn..."
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:boxCornerRadiusTopStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
@@ -234,11 +234,11 @@
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Lớp đội trưởng -->
+                    <!-- Chi đoàn đội trưởng -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lớp đội trưởng"
+                        android:text="Chi đoàn đội trưởng"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_secondary"
@@ -247,7 +247,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Nhập lớp đội trưởng..."
+                        android:hint="Nhập chi đoàn đội trưởng..."
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:boxCornerRadiusTopStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"

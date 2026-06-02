@@ -164,11 +164,11 @@
                             android:spinnerMode="dropdown" />
                     </LinearLayout>
 
-                    <!-- Lớp cầu thủ -->
+                    <!-- Chi đoàn cầu thủ -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lớp cầu thủ"
+                        android:text="Chi đoàn cầu thủ"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="@color/green_primary"

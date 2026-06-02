@@ -96,7 +96,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
                 tvPlayerInitial.setText(initial);
             }
             tvPlayerName.setText(player.getPlayerName());
-            tvPlayerClass.setText("Lớp: " + player.getPlayerClass());
+            tvPlayerClass.setText("Chi đoàn: " + player.getPlayerClass());
 
             String jerseyStr = player.getJerseyNumber() > 0 ? String.valueOf(player.getJerseyNumber()) : "--";
             String positionStr = (player.getPosition() != null && !player.getPosition().isEmpty()) ? player.getPosition() : "--";

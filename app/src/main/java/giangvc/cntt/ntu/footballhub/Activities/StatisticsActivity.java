@@ -36,6 +36,7 @@ public class StatisticsActivity extends AppCompatActivity {
     private TextView tvChampion, tvRunnerUp, tvThirdPlace;
     private LinearLayout layoutTopGoalkeepers;
     private LinearLayout layoutTopScorers;
+    private LinearLayout layoutCardStats;
 
     private FirebaseFirestore db;
     private List<Tournament> tournamentList = new ArrayList<>();
@@ -60,6 +61,7 @@ public class StatisticsActivity extends AppCompatActivity {
         tvThirdPlace = findViewById(R.id.tvThirdPlace);
         layoutTopGoalkeepers = findViewById(R.id.layoutTopGoalkeepers);
         layoutTopScorers = findViewById(R.id.layoutTopScorers);
+        layoutCardStats = findViewById(R.id.layoutCardStats);
 
         db = FirebaseFirestore.getInstance();
 
@@ -129,6 +131,9 @@ public class StatisticsActivity extends AppCompatActivity {
                     
                     // 2. Calculate Golden Glove
                     calculateGoldenGlove(matches, tournament.getTeamIds());
+                    
+                    // 3. Calculate Card Stats
+                    calculateCardStats(matches);
                 });
     }
 
@@ -182,15 +187,34 @@ public class StatisticsActivity extends AppCompatActivity {
     private static class PlayerStat {
         String playerId;
         String playerName;
+        String teamId;
         String teamName;
         int count;
-        public PlayerStat(String id, String name, String team, int c) {
-            playerId = id; playerName = name; teamName = team; count = c;
+        int matchesPlayed;
+        double coefficient;
+        
+        public PlayerStat(String id, String name, String tId, String team, int c) {
+            playerId = id; playerName = name; teamId = tId; teamName = team; count = c;
         }
+    }
+
+    private java.util.Set<String> getSemiFinalTeams(List<Match> matches) {
+        java.util.Set<String> semiFinalTeams = new java.util.HashSet<>();
+        for (Match match : matches) {
+            if (match.getRound() != null && 
+                (match.getRound().contains("Bán kết") || 
+                 match.getRound().contains("Chung kết") || 
+                 match.getRound().contains("Tranh hạng 3"))) {
+                if (match.getTeam1Id() != null && !match.getTeam1Id().isEmpty()) semiFinalTeams.add(match.getTeam1Id());
+                if (match.getTeam2Id() != null && !match.getTeam2Id().isEmpty()) semiFinalTeams.add(match.getTeam2Id());
+            }
+        }
+        return semiFinalTeams;
     }
 
     private void calculateTopScorers(List<Match> matches) {
         Map<String, PlayerStat> scorerMap = new HashMap<>();
+        java.util.Set<String> semiFinalTeams = getSemiFinalTeams(matches);
         
         for (Match match : matches) {
             if (match.getEvents() != null) {
@@ -198,7 +222,7 @@ public class StatisticsActivity extends AppCompatActivity {
                     if (MatchEvent.TYPE_GOAL.equals(event.getType()) && event.getPlayerId() != null && !event.getPlayerId().isEmpty()) {
                         String pId = event.getPlayerId();
                         if (!scorerMap.containsKey(pId)) {
-                            scorerMap.put(pId, new PlayerStat(pId, event.getPlayerName(), event.getTeamName(), 0));
+                            scorerMap.put(pId, new PlayerStat(pId, event.getPlayerName(), event.getTeamId(), event.getTeamName(), 0));
                         }
                         scorerMap.get(pId).count++;
                     }
@@ -236,9 +260,17 @@ public class StatisticsActivity extends AppCompatActivity {
             nameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
             
             TextView tvName = new TextView(this);
-            tvName.setText(ps.playerName);
+            if (i == 0) {
+                tvName.setText(ps.playerName + " 👟");
+            } else {
+                tvName.setText(ps.playerName);
+            }
             tvName.setTextSize(16);
-            tvName.setTextColor(getResources().getColor(android.R.color.black));
+            if (ps.teamId != null && semiFinalTeams.contains(ps.teamId)) {
+                tvName.setTextColor(android.graphics.Color.RED);
+            } else {
+                tvName.setTextColor(getResources().getColor(android.R.color.black));
+            }
             
             TextView tvTeam = new TextView(this);
             tvTeam.setText(ps.teamName);
@@ -264,23 +296,26 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void calculateGoldenGlove(List<Match> matches, List<String> teamIds) {
-        // Count goals conceded per team (Bàn thua)
+        java.util.Set<String> semiFinalTeams = getSemiFinalTeams(matches);
+        
         Map<String, Integer> teamConcededGoals = new HashMap<>();
+        Map<String, Integer> teamMatchesPlayed = new HashMap<>();
         Map<String, String> teamNames = new HashMap<>();
         
         for (Match match : matches) {
             String t1 = match.getTeam1Id();
             String t2 = match.getTeam2Id();
-            teamNames.put(t1, match.getTeam1Name());
-            teamNames.put(t2, match.getTeam2Name());
+            if (t1 != null) teamNames.put(t1, match.getTeam1Name());
+            if (t2 != null) teamNames.put(t2, match.getTeam2Name());
             
-            if (!teamConcededGoals.containsKey(t1)) teamConcededGoals.put(t1, 0);
-            if (!teamConcededGoals.containsKey(t2)) teamConcededGoals.put(t2, 0);
-            
-            // Team 1 concedes what Team 2 scores
-            teamConcededGoals.put(t1, teamConcededGoals.get(t1) + match.getScoreTeam2());
-            // Team 2 concedes what Team 1 scores
-            teamConcededGoals.put(t2, teamConcededGoals.get(t2) + match.getScoreTeam1());
+            if (t1 != null) {
+                teamConcededGoals.put(t1, (teamConcededGoals.containsKey(t1) ? teamConcededGoals.get(t1) : 0) + match.getScoreTeam2());
+                teamMatchesPlayed.put(t1, (teamMatchesPlayed.containsKey(t1) ? teamMatchesPlayed.get(t1) : 0) + 1);
+            }
+            if (t2 != null) {
+                teamConcededGoals.put(t2, (teamConcededGoals.containsKey(t2) ? teamConcededGoals.get(t2) : 0) + match.getScoreTeam1());
+                teamMatchesPlayed.put(t2, (teamMatchesPlayed.containsKey(t2) ? teamMatchesPlayed.get(t2) : 0) + 1);
+            }
         }
         
         layoutTopGoalkeepers.removeAllViews();
@@ -299,25 +334,29 @@ public class StatisticsActivity extends AppCompatActivity {
                     
                     for (QueryDocumentSnapshot doc : snapshots) {
                         Player p = doc.toObject(Player.class);
-                        if (teamIds.contains(p.getTeamId())) {
+                        if (p.getTeamId() != null && semiFinalTeams.contains(p.getTeamId())) {
                             int conceded = teamConcededGoals.containsKey(p.getTeamId()) ? teamConcededGoals.get(p.getTeamId()) : 0;
+                            int matchesPlayed = teamMatchesPlayed.containsKey(p.getTeamId()) ? teamMatchesPlayed.get(p.getTeamId()) : 0;
                             String tName = teamNames.containsKey(p.getTeamId()) ? teamNames.get(p.getTeamId()) : "Không xác định";
-                            goalkeepers.add(new PlayerStat(p.getPlayerId(), p.getPlayerName(), tName, conceded));
+                            
+                            PlayerStat gk = new PlayerStat(p.getPlayerId(), p.getPlayerName(), p.getTeamId(), tName, conceded);
+                            gk.matchesPlayed = matchesPlayed;
+                            gk.coefficient = matchesPlayed > 0 ? (double) conceded / matchesPlayed : 0;
+                            goalkeepers.add(gk);
                         }
                     }
                     
-                    // Sort by fewest goals conceded ASCENDING
-                    Collections.sort(goalkeepers, (a, b) -> Integer.compare(a.count, b.count));
+                    Collections.sort(goalkeepers, (a, b) -> Double.compare(a.coefficient, b.coefficient));
                     
                     if (goalkeepers.isEmpty()) {
                         TextView tv = new TextView(this);
-                        tv.setText("Chưa có thủ môn nào trong giải đấu.");
+                        tv.setText("Chưa có thủ môn nào từ các đội vào bán kết.");
                         layoutTopGoalkeepers.addView(tv);
                         return;
                     }
                     
                     int rank = 1;
-                    for (int i = 0; i < Math.min(goalkeepers.size(), 5); i++) {
+                    for (int i = 0; i < Math.min(goalkeepers.size(), 4); i++) {
                         PlayerStat gk = goalkeepers.get(i);
                         
                         LinearLayout row = new LinearLayout(this);
@@ -335,7 +374,11 @@ public class StatisticsActivity extends AppCompatActivity {
                         nameLayout.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
                         
                         TextView tvName = new TextView(this);
-                        tvName.setText(gk.playerName);
+                        if (i == 0) {
+                            tvName.setText(gk.playerName + " 🧤");
+                        } else {
+                            tvName.setText(gk.playerName);
+                        }
                         tvName.setTextSize(16);
                         tvName.setTextColor(getResources().getColor(android.R.color.black));
                         
@@ -348,10 +391,11 @@ public class StatisticsActivity extends AppCompatActivity {
                         nameLayout.addView(tvTeam);
                         
                         TextView tvConceded = new TextView(this);
-                        tvConceded.setText(gk.count + " ⚽");
-                        tvConceded.setTextSize(16);
+                        String displayStr = String.format("%.2f (%d/%d)", gk.coefficient, gk.count, gk.matchesPlayed);
+                        tvConceded.setText(displayStr);
+                        tvConceded.setTextSize(14);
                         tvConceded.setTypeface(null, android.graphics.Typeface.BOLD);
-                        tvConceded.setTextColor(android.graphics.Color.parseColor("#D32F2F")); // Red for goals conceded
+                        tvConceded.setTextColor(android.graphics.Color.parseColor("#D32F2F"));
                         
                         row.addView(tvRank);
                         row.addView(nameLayout);
@@ -361,6 +405,86 @@ public class StatisticsActivity extends AppCompatActivity {
                         rank++;
                     }
                 });
+    }
+
+    private void calculateCardStats(List<Match> matches) {
+        class TeamCardStat {
+            String teamName;
+            int yellowCards = 0;
+            int redCards = 0;
+        }
+        
+        Map<String, TeamCardStat> teamCardMap = new HashMap<>();
+        
+        for (Match match : matches) {
+            if (match.getEvents() != null) {
+                for (MatchEvent event : match.getEvents()) {
+                    if (MatchEvent.TYPE_YELLOW.equals(event.getType()) || MatchEvent.TYPE_RED.equals(event.getType())) {
+                        String tId = event.getTeamId();
+                        if (tId != null && !tId.isEmpty()) {
+                            if (!teamCardMap.containsKey(tId)) {
+                                TeamCardStat stat = new TeamCardStat();
+                                stat.teamName = event.getTeamName();
+                                teamCardMap.put(tId, stat);
+                            }
+                            if (MatchEvent.TYPE_YELLOW.equals(event.getType())) {
+                                teamCardMap.get(tId).yellowCards++;
+                            } else if (MatchEvent.TYPE_RED.equals(event.getType())) {
+                                teamCardMap.get(tId).redCards++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        List<TeamCardStat> cardStats = new ArrayList<>(teamCardMap.values());
+        Collections.sort(cardStats, (a, b) -> {
+            if (a.redCards != b.redCards) {
+                return Integer.compare(b.redCards, a.redCards);
+            }
+            return Integer.compare(b.yellowCards, a.yellowCards);
+        });
+        
+        layoutCardStats.removeAllViews();
+        if (cardStats.isEmpty()) {
+            TextView tv = new TextView(this);
+            tv.setText("Chưa có thẻ phạt nào được ghi nhận.");
+            layoutCardStats.addView(tv);
+            return;
+        }
+        
+        for (TeamCardStat stat : cardStats) {
+            LinearLayout row = new LinearLayout(this);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setPadding(0, 8, 0, 8);
+            row.setGravity(android.view.Gravity.CENTER_VERTICAL);
+            
+            TextView tvName = new TextView(this);
+            tvName.setText(stat.teamName);
+            tvName.setTextSize(16);
+            tvName.setTextColor(getResources().getColor(android.R.color.black));
+            tvName.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+            
+            TextView tvYellow = new TextView(this);
+            tvYellow.setText(stat.yellowCards + " 🟨");
+            tvYellow.setTextSize(16);
+            tvYellow.setTypeface(null, android.graphics.Typeface.BOLD);
+            tvYellow.setTextColor(android.graphics.Color.parseColor("#F9A825"));
+            tvYellow.setPadding(0, 0, 16, 0);
+            
+            TextView tvRed = new TextView(this);
+            tvRed.setText(stat.redCards + " 🟥");
+            tvRed.setTextSize(16);
+            tvRed.setTypeface(null, android.graphics.Typeface.BOLD);
+            tvRed.setTextColor(android.graphics.Color.parseColor("#D32F2F"));
+            
+            row.addView(tvName);
+            row.addView(tvYellow);
+            row.addView(tvRed);
+            
+            layoutCardStats.addView(row);
+        }
     }
 
     @Override

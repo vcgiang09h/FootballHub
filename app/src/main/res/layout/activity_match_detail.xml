@@ -1,53 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFF3E0">
+    android:background="#FAFAFA">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#8E24AA">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Chi tiết trận đấu"
-            app:titleTextColor="@color/text_on_dark" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_header_gradient"
+            android:paddingBottom="32dp"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <!-- Decorative circle top-right -->
+            <View
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-40dp"
+                android:layout_marginEnd="-40dp"
+                android:alpha="0.05"
+                android:background="@drawable/bg_avatar_circle" />
+
+            <!-- Decorative circle bottom-left -->
+            <View
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="-30dp"
+                android:layout_marginBottom="-30dp"
+                android:alpha="0.03"
+                android:background="@drawable/bg_avatar_circle" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toolbar"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="8dp">
+
+                <FrameLayout
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/bg_avatar_circle"
+                    android:backgroundTint="#33FFFFFF">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="⚙️"
+                        android:textSize="28sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chi tiết trận đấu"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/tvTournamentName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tên giải đấu"
+                        android:textSize="14sp"
+                        android:textColor="#E0E0E0"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/tvTournamentName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Tên giải đấu"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#8E24AA"
-                android:gravity="center"
-                android:layout_marginBottom="16dp" />
+            android:padding="20dp"
+            android:layout_marginTop="-24dp">
 
             <!-- CARD 1: SETUP -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
-                android:layout_marginBottom="16dp">
+                app:cardBackgroundColor="#FFFFFF"
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -58,10 +130,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cài đặt trận đấu"
+                        android:text="CÀI ĐẶT TRẬN ĐẤU"
+                        android:textSize="11sp"
                         android:textStyle="bold"
-                        android:textColor="#8E24AA"
-                        android:layout_marginBottom="12dp" />
+                        android:textColor="#7B9C7F"
+                        android:letterSpacing="0.1"
+                        android:layout_marginBottom="16dp" />
 
                     <!-- Teams Setup -->
                     <LinearLayout
@@ -74,13 +148,14 @@
                             android:layout_width="60dp"
                             android:layout_height="wrap_content"
                             android:text="Đội 1:"
+                            android:textColor="#1B2A1D"
                             android:textStyle="bold" />
                         <Spinner
                             android:id="@+id/spinnerTeam1"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_weight="1"
-                            android:background="@drawable/bg_format_unselected" />
+                            android:background="@drawable/bg_edittext" />
                     </LinearLayout>
                     
                     <LinearLayout
@@ -93,13 +168,14 @@
                             android:layout_width="60dp"
                             android:layout_height="wrap_content"
                             android:text="Đội 2:"
+                            android:textColor="#1B2A1D"
                             android:textStyle="bold" />
                         <Spinner
                             android:id="@+id/spinnerTeam2"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_weight="1"
-                            android:background="@drawable/bg_format_unselected" />
+                            android:background="@drawable/bg_edittext" />
                     </LinearLayout>
 
                     <!-- Date & Time -->
@@ -114,6 +190,10 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginEnd="8dp"
+                            app:boxCornerRadiusTopStart="8dp"
+                            app:boxCornerRadiusTopEnd="8dp"
+                            app:boxCornerRadiusBottomStart="8dp"
+                            app:boxCornerRadiusBottomEnd="8dp"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etDate"
@@ -126,6 +206,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            app:boxCornerRadiusTopStart="8dp"
+                            app:boxCornerRadiusTopEnd="8dp"
+                            app:boxCornerRadiusBottomStart="8dp"
+                            app:boxCornerRadiusBottomEnd="8dp"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etTime"
@@ -140,6 +224,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusBottomEnd="8dp"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etLocation"
@@ -151,6 +239,10 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusBottomEnd="8dp"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etReferee"
@@ -165,9 +257,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
-                android:layout_marginBottom="16dp">
+                app:cardBackgroundColor="#FFFFFF"
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -179,10 +272,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kết quả trận đấu"
+                        android:text="KẾT QUẢ TRẬN ĐẤU"
+                        android:textSize="11sp"
                         android:textStyle="bold"
-                        android:textColor="#8E24AA"
-                        android:layout_marginBottom="16dp" />
+                        android:textColor="#7B9C7F"
+                        android:letterSpacing="0.1"
+                        android:layout_marginBottom="20dp" />
 
                     <!-- Scores layout -->
                     <LinearLayout
@@ -190,7 +285,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:layout_marginBottom="8dp">
+                        android:layout_marginBottom="12dp">
 
                         <TextView
                             android:id="@+id/tvDisplayTeam1"
@@ -200,6 +295,7 @@
                             android:text="Đội 1"
                             android:textSize="16sp"
                             android:textStyle="bold"
+                            android:textColor="#1B2A1D"
                             android:gravity="center" />
 
                         <TextView
@@ -209,9 +305,9 @@
                             android:text="0"
                             android:textSize="28sp"
                             android:textStyle="bold"
-                            android:textColor="#8E24AA"
+                            android:textColor="#2E7D32"
                             android:gravity="center"
-                            android:background="@drawable/bg_format_unselected"
+                            android:background="@drawable/bg_edittext"
                             android:padding="8dp" />
 
                         <TextView
@@ -220,6 +316,7 @@
                             android:text="-"
                             android:textSize="28sp"
                             android:textStyle="bold"
+                            android:textColor="#9E9E9E"
                             android:layout_marginHorizontal="12dp" />
 
                         <TextView
@@ -229,9 +326,9 @@
                             android:text="0"
                             android:textSize="28sp"
                             android:textStyle="bold"
-                            android:textColor="#8E24AA"
+                            android:textColor="#2E7D32"
                             android:gravity="center"
-                            android:background="@drawable/bg_format_unselected"
+                            android:background="@drawable/bg_edittext"
                             android:padding="8dp" />
 
                         <TextView
@@ -242,6 +339,7 @@
                             android:text="Đội 2"
                             android:textSize="16sp"
                             android:textStyle="bold"
+                            android:textColor="#1B2A1D"
                             android:gravity="center" />
                     </LinearLayout>
 
@@ -252,7 +350,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:layout_marginBottom="8dp">
+                        android:layout_marginBottom="12dp">
 
                         <TextView
                             android:layout_width="0dp"
@@ -272,7 +370,7 @@
                             android:textColor="#E65100"
                             android:gravity="center"
                             android:inputType="number"
-                            android:background="@drawable/bg_format_unselected"
+                            android:background="@drawable/bg_edittext"
                             android:padding="4dp" />
 
                         <TextView
@@ -291,7 +389,7 @@
                             android:textColor="#E65100"
                             android:gravity="center"
                             android:inputType="number"
-                            android:background="@drawable/bg_format_unselected"
+                            android:background="@drawable/bg_edittext"
                             android:padding="4dp" />
 
                         <TextView
@@ -310,7 +408,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="12dp">
+                        android:layout_marginBottom="16dp">
 
                         <!-- Sự kiện Đội 1 (bên trái, align phải) -->
                         <LinearLayout
@@ -324,7 +422,7 @@
 
                         <!-- Đường phân cách giữa -->
                         <View
-                            android:layout_width="2dp"
+                            android:layout_width="1dp"
                             android:layout_height="match_parent"
                             android:background="#E0E0E0" />
 
@@ -341,9 +439,9 @@
 
                     <Spinner
                         android:id="@+id/spinnerStatus"
-                        android:layout_width="200dp"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:background="@drawable/bg_format_unselected"
+                        android:background="@drawable/bg_edittext"
                         android:textAlignment="center" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -352,9 +450,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
-                android:layout_marginBottom="24dp">
+                app:cardBackgroundColor="#FFFFFF"
+                android:layout_marginBottom="32dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -365,10 +464,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Diễn biến trận đấu (Bàn thắng / Thẻ phạt)"
+                        android:text="DIỄN BIẾN TRẬN ĐẤU"
+                        android:textSize="11sp"
                         android:textStyle="bold"
-                        android:textColor="#8E24AA"
-                        android:layout_marginBottom="12dp" />
+                        android:textColor="#7B9C7F"
+                        android:letterSpacing="0.1"
+                        android:layout_marginBottom="16dp" />
                         
                     <LinearLayout
                         android:id="@+id/layoutEventsContainer"
@@ -389,6 +490,8 @@
                             android:layout_height="wrap_content"
                             android:text="+ Bàn thắng"
                             android:textSize="12sp"
+                            android:textColor="#2E7D32"
+                            app:strokeColor="#2E7D32"
                             android:layout_marginEnd="8dp"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
                             
@@ -398,6 +501,8 @@
                             android:layout_height="wrap_content"
                             android:text="+ Thẻ phạt"
                             android:textSize="12sp"
+                            android:textColor="#D32F2F"
+                            app:strokeColor="#D32F2F"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
                     </LinearLayout>
 
@@ -409,30 +514,30 @@
                 android:id="@+id/btnUpdateMatch"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="💾  Lưu Thông Tin"
+                android:text="Lưu thông tin"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_on_dark"
-                app:backgroundTint="#8E24AA"
-                app:cornerRadius="16dp"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#2E7D32"
+                app:cornerRadius="12dp"
                 android:layout_marginBottom="16dp" />
 
             <!-- Nút Xóa -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDeleteMatch"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="🗑️  Xóa Trận Đấu"
+                android:layout_height="56dp"
+                android:text="Xóa trận đấu"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#D32F2F"
                 app:backgroundTint="@android:color/transparent"
                 app:strokeColor="#D32F2F"
-                app:strokeWidth="2dp"
-                app:cornerRadius="16dp"
+                app:strokeWidth="1dp"
+                app:cornerRadius="12dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="32dp" />
 
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

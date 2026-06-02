@@ -127,7 +127,7 @@ public class PlayerDetailActivity extends AppCompatActivity {
         String initial = (playerName != null && !playerName.isEmpty()) ? String.valueOf(playerName.charAt(0)).toUpperCase() : "?";
         tvDetailPlayerInitial.setText(initial);
         tvDetailPlayerName.setText(playerName);
-        tvDetailPlayerClass.setText("Lớp: " + playerClass);
+        tvDetailPlayerClass.setText("Chi đoàn: " + playerClass);
         tvDetailStudentId.setText("MSSV: " + studentId);
 
         // Form inputs
@@ -198,7 +198,7 @@ public class PlayerDetailActivity extends AppCompatActivity {
                     String initial = (!newName.isEmpty()) ? String.valueOf(newName.charAt(0)).toUpperCase() : "?";
                     tvDetailPlayerInitial.setText(initial);
                     tvDetailPlayerName.setText(newName);
-                    tvDetailPlayerClass.setText("Lớp: " + newPlayerClass);
+                    tvDetailPlayerClass.setText("Chi đoàn: " + newPlayerClass);
                     tvDetailStudentId.setText("MSSV: " + newStudentId);
 
                     btnUpdatePlayer.setEnabled(true);

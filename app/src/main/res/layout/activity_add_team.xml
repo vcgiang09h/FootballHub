@@ -109,11 +109,11 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Label: Tên lớp -->
+                    <!-- Label: Chi đoàn -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tên lớp (Đội)"
+                        android:text="Chi đoàn (Đội)"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="@color/green_primary"
@@ -175,11 +175,11 @@
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Label: Lớp Đội trưởng -->
+                    <!-- Label: Chi đoàn đội trưởng -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lớp đội trưởng"
+                        android:text="Chi đoàn đội trưởng"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="@color/green_primary"

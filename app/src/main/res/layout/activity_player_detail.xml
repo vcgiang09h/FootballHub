@@ -83,7 +83,7 @@
                     android:id="@+id/tvDetailPlayerClass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lớp: ---"
+                    android:text="Chi đoàn: ---"
                     android:textSize="14sp"
                     android:textColor="#CCFFFFFF"
                     android:layout_marginTop="4dp" />
@@ -226,11 +226,11 @@
                             android:spinnerMode="dropdown" />
                     </LinearLayout>
 
-                    <!-- Lớp cầu thủ -->
+                    <!-- Chi đoàn cầu thủ -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lớp cầu thủ"
+                        android:text="Chi đoàn cầu thủ"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_secondary"
@@ -239,7 +239,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Lớp"
+                        android:hint="Chi đoàn"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:boxCornerRadiusTopStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
