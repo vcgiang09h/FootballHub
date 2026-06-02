@@ -1,4 +1,4 @@
-<img width="1080" height="2400" alt="Screenshot_2026-06-02-15-22-06-892_giangvc cntt ntu footballhub 1" src="https://github.com/user-attachments/assets/7d57e34c-1516-470c-9976-6b2e78dc1c4c" /><img width="1080" height="2400" alt="Screenshot_2026-06-02-15-18-02-090_giangvc cntt ntu footballhub 1" src="https://github.com/user-attachments/assets/cbf7b583-3b62-47f4-a0c7-fc496109807a" /># ỨNG DỤNG FOOTBALLHUB
+<img width="1080" height="2400" alt="Screenshot_2026-06-02-15-30-44-881_giangvc cntt ntu footballhub 1" src="https://github.com/user-attachments/assets/79b42c35-b2c6-47de-85de-1b91c642de2f" /># ỨNG DỤNG FOOTBALLHUB
 
 > Ứng dụng quản lý giải bóng đá sinh viên truyền thống Khoa Công nghệ Thông tin - Trường Đại học Nha Trang (FootballHub)
 > Sinh viên: Võ Công Giang - 65.CNTT-1
@@ -35,3 +35,33 @@ Trang Quản lý và thêm cầu thủ của đội
 
 <img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/09e4918f-311e-4693-9615-12764acb1802" />
 <img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/6767b2e5-f732-4e8a-b2bf-b68fd75ec800" />
+
+---
+Trang Quản lý giải đấu và tạo giải đấu
+
+<img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/864a6853-7833-4763-a91d-195946f7532a" />
+<img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/030adb5d-90f3-4b50-a4d5-883291e1a643" />
+
+---
+Trang Quản lý trận đấu của mùa giải và chỉnh sửa thông tin trận đấu
+
+<img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/b678fab3-6456-498c-8925-563483540e3e" />
+<img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/9dad1488-f449-41d3-aeb5-8b2d3d854239" />
+
+---
+Trang bốc thăm chia cặp đấu
+
+<img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/1fbf3583-fda6-4702-b501-a3133338f77c" />
+
+---
+Trang theo dõi lịch thi đấu và kết quả
+
+<img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/03287875-7be9-4498-96e7-91586d96c2cd" />
+
+---
+Trang thống kê giải đấu
+
+<img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/3075c11c-a866-4cbe-8375-45d64fef57d4" />
+<img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/afc8ff77-3d77-4f6c-9572-13d39471cd94" />
+
+---
