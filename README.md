@@ -16,8 +16,8 @@
 
 Trang đăng nhập/Đăng ký:
 
-<img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/5e948304-617f-4b12-8f9b-103dd9d01e4b" />
-<img width="480" height="1067" alt="image" src="https://github.com/user-attachments/assets/8ef84b90-0924-4818-90fb-54fffa18a923" />
+<img width="360" height="800" alt="image" src="https://github.com/user-attachments/assets/5e948304-617f-4b12-8f9b-103dd9d01e4b" />
+<img width="360" height="800" alt="image" src="https://github.com/user-attachments/assets/8ef84b90-0924-4818-90fb-54fffa18a923" />
 
 ---
 Màn hình chính:
