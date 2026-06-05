@@ -8,6 +8,7 @@
 - Android 7.0 (Nougat API 24)
 - Java Language
 - File doc mô tả dự án (Đang update): https://docs.google.com/document/d/1nkMddNCZEvGBDIjKuRqn8xNTTMH3Edf00Oy2cg_7wz8/edit?usp=sharing
+- Link thuyết trình dự án: https://drive.google.com/drive/folders/1uTF2w0OKBKdfDyNYJxUEfuwutDbFiY3w?usp=sharing
 
 *Mô tả ứng dụng*: Ứng dụng di động (Android/Java) hỗ trợ số hóa toàn bộ quy trình quản lý giải bóng đá sinh viên truyền thống Khoa Công nghệ Thông tin - Trường Đại học Nha Trang. Tích hợp các chức năng quản lý đội bóng, tự động cập nhật bảng xếp hạng thời gian thực (Firebase) và thống kê mùa giải
 
