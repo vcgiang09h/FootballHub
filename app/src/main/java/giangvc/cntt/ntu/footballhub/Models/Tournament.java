@@ -72,9 +72,9 @@ public class Tournament {
 
     public String getFormatLabel() {
         if (FORMAT_KNOCKOUT.equals(format)) {
-            return "🥊 Đá loại trực tiếp";
+            return "Đá loại trực tiếp";
         } else if (FORMAT_ROUND_ROBIN.equals(format)) {
-            return "🔄 Đá vòng bảng";
+            return "Đá vòng bảng";
         }
         return "Không xác định";
     }

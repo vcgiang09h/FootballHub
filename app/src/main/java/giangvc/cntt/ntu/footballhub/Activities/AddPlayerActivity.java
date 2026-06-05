@@ -125,14 +125,14 @@ public class AddPlayerActivity extends AppCompatActivity {
                 .set(newPlayer)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this,
-                            "✅ Đã thêm cầu thủ \"" + name + "\"",
+                            "Đã thêm cầu thủ \"" + name + "\"",
                             Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     btnSavePlayer.setEnabled(true);
-                    btnSavePlayer.setText("✔  Lưu Cầu Thủ");
+                    btnSavePlayer.setText("Lưu Cầu Thủ");
                 });
     }
 

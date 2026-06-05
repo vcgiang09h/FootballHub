@@ -156,7 +156,7 @@ public class TournamentManagementActivity extends AppCompatActivity {
                                                 });
                                                 
                                         Toast.makeText(this,
-                                                "🗑️ Đã xóa giải \"" + tournament.getTournamentName() + "\" và các lịch thi đấu liên quan",
+                                                "Đã xóa giải \"" + tournament.getTournamentName() + "\" và các lịch thi đấu liên quan",
                                                 Toast.LENGTH_SHORT).show();
                                 })
                                 .addOnFailureListener(e ->

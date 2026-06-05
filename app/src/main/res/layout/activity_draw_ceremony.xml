@@ -64,12 +64,12 @@
                     android:layout_height="56dp"
                     android:background="@drawable/bg_avatar_circle"
                     android:backgroundTint="#33FFFFFF">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_gravity="center"
-                        android:text="🗳️"
-                        android:textSize="28sp" />
+                        android:src="@android:drawable/ic_menu_crop"
+                        app:tint="#FFFFFF" />
                 </FrameLayout>
 
                 <LinearLayout

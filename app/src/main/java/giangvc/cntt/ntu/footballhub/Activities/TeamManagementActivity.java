@@ -169,7 +169,7 @@ public class TeamManagementActivity extends AppCompatActivity {
                             .delete()
                             .addOnSuccessListener(aVoid ->
                                     Toast.makeText(this,
-                                            "🗑️ Đã xóa đội \"" + team.getTeamName() + "\"",
+                                            "Đã xóa đội \"" + team.getTeamName() + "\"",
                                             Toast.LENGTH_SHORT).show()
                             )
                             .addOnFailureListener(e ->

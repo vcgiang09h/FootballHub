@@ -25,11 +25,11 @@
         android:paddingTop="48dp"
         android:paddingBottom="32dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🏆"
-            android:textSize="40sp" />
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_agenda"
+            app:tint="@color/text_on_dark" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,11 +80,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="⚽ Hình thức thi đấu"
+                        android:text="Hình thức thi đấu"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:textColor="#E65100"
-                        android:layout_marginBottom="14dp" />
+                        android:layout_marginBottom="14dp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_gallery"
+                        app:drawableTint="#E65100"
+                        android:drawablePadding="8dp" />
 
                     <!-- Option 1: Knockout -->
                     <LinearLayout
@@ -118,7 +121,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="🥊 Đá loại trực tiếp (Knockout)"
+                                android:text="Đá loại trực tiếp (Knockout)"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/text_primary" />
@@ -126,7 +129,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Thua là bị loại • 2 đến 24 đội"
+                                android:text="Thua là bị loại • 4 đến 12 đội"
                                 android:textSize="12sp"
                                 android:textColor="@color/text_secondary"
                                 android:layout_marginTop="2dp" />
@@ -170,7 +173,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="🔄 Đá vòng bảng"
+                                    android:text="Đá vòng bảng"
                                     android:textSize="14sp"
                                     android:textStyle="bold"
                                     android:textColor="#9E9E9E" />
@@ -222,11 +225,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="👥 Số đội tham gia (4–12)"
+                        android:text="Số đội tham gia (4–12)"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="#E65100"
-                        android:layout_marginBottom="12dp" />
+                        android:layout_marginBottom="12dp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_myplaces"
+                        app:drawableTint="#E65100"
+                        android:drawablePadding="8dp" />
 
                     <!-- SeekBar + Giá trị -->
                     <LinearLayout
@@ -332,11 +338,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📋 Thông tin giải đấu"
+                        android:text="Thông tin giải đấu"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="#E65100"
-                        android:layout_marginBottom="14dp" />
+                        android:layout_marginBottom="14dp"
+                        app:drawableStartCompat="@android:drawable/ic_menu_info_details"
+                        app:drawableTint="#E65100"
+                        android:drawablePadding="8dp" />
 
                     <!-- Tên giải đấu -->
                     <TextView
@@ -507,7 +516,9 @@
                 android:id="@+id/btnSaveTournament"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="✔  Tạo Giải Đấu"
+                android:text="Tạo Giải Đấu"
+                app:icon="@android:drawable/ic_menu_save"
+                app:iconTint="@color/text_on_dark"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_on_dark"

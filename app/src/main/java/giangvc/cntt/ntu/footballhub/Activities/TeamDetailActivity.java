@@ -180,7 +180,7 @@ public class TeamDetailActivity extends AppCompatActivity {
         db.collection("Teams").document(teamId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "✅ Đã cập nhật đội \"" + newName + "\"", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Đã cập nhật đội \"" + newName + "\"", Toast.LENGTH_SHORT).show();
 
                     // Cập nhật lại header
                     String initial = (!newName.isEmpty()) ? String.valueOf(newName.charAt(0)).toUpperCase() : "?";
@@ -189,12 +189,12 @@ public class TeamDetailActivity extends AppCompatActivity {
                     tvDetailCoachName.setText("Đội trưởng: " + newCaptainName);
 
                     btnUpdateTeam.setEnabled(true);
-                    btnUpdateTeam.setText("💾  Lưu thay đổi");
+                    btnUpdateTeam.setText("Lưu thay đổi");
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     btnUpdateTeam.setEnabled(true);
-                    btnUpdateTeam.setText("💾  Lưu thay đổi");
+                    btnUpdateTeam.setText("Lưu thay đổi");
                 });
     }
 
@@ -221,13 +221,13 @@ public class TeamDetailActivity extends AppCompatActivity {
         db.collection("Teams").document(teamId)
                 .delete()
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "🗑️ Đã xóa đội \"" + teamName + "\"", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Đã xóa đội \"" + teamName + "\"", Toast.LENGTH_SHORT).show();
                     finish(); // Quay lại danh sách
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     btnDeleteTeam.setEnabled(true);
-                    btnDeleteTeam.setText("🗑️  Xóa đội bóng");
+                    btnDeleteTeam.setText("Xóa đội bóng");
                 });
     }
 

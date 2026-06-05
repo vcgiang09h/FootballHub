@@ -4,12 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="4dp"
-    app:cardBackgroundColor="@color/card_bg">
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/card_bg"
+    app:strokeWidth="1dp"
+    app:strokeColor="#1A000000"
+    app:rippleColor="#1A4CAF50">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,9 +26,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingHorizontal="16dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="8dp"
-            android:background="#F3E5F5"
+            android:paddingTop="14dp"
+            android:paddingBottom="10dp"
+            android:background="#F9FAFB"
             android:gravity="center_vertical">
 
             <TextView
@@ -33,32 +37,45 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Tên giải đấu"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="#8E24AA"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/green_primary"
                 android:maxLines="1"
                 android:ellipsize="end" />
 
-            <TextView
-                android:id="@+id/tvMatchStatus"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sắp diễn ra"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/bg_status_badge"
-                android:backgroundTint="#8E24AA"
-                android:paddingHorizontal="6dp"
-                android:paddingVertical="2dp" />
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#E8F5E9"
+                app:strokeWidth="1dp"
+                app:strokeColor="#C8E6C9">
+                <TextView
+                    android:id="@+id/tvMatchStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sắp diễn ra"
+                    android:textSize="11sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/green_dark"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp" />
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F0F0F0" />
 
         <!-- Body: Teams and Score -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="16dp"
+            android:padding="20dp"
             android:gravity="center_vertical">
 
             <!-- Team 1 -->
@@ -69,48 +86,68 @@
                 android:layout_weight="1"
                 android:text="Đội 1"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
                 android:textColor="@color/text_primary"
                 android:gravity="end"
                 android:maxLines="2"
                 android:ellipsize="end" />
 
-            <!-- Score -->
+            <!-- Score Container -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginHorizontal="16dp"
-                android:background="#F5F5F5"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="6dp"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/bg_edittext"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
                 android:gravity="center">
 
-                <TextView
-                    android:id="@+id/tvScore1"
+                <!-- Main Score -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="#8E24AA" />
+                    android:orientation="horizontal"
+                    android:gravity="center">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" - "
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_secondary" />
+                    <TextView
+                        android:id="@+id/tvScore1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/green_dark" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" - "
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_secondary" />
+
+                    <TextView
+                        android:id="@+id/tvScore2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/green_dark" />
+                </LinearLayout>
+
+                <!-- Penalty Score -->
                 <TextView
-                    android:id="@+id/tvScore2"
+                    android:id="@+id/tvPenaltyScore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="#8E24AA" />
+                    android:text="(pen: 3-4)"
+                    android:textSize="12sp"
+                    android:textColor="#D32F2F"
+                    android:textStyle="italic"
+                    android:visibility="gone"
+                    android:layout_marginTop="2dp" />
             </LinearLayout>
 
             <!-- Team 2 -->
@@ -121,7 +158,7 @@
                 android:layout_weight="1"
                 android:text="Đội 2"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
                 android:textColor="@color/text_primary"
                 android:gravity="start"
                 android:maxLines="2"
@@ -134,8 +171,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingHorizontal="16dp"
-            android:paddingBottom="12dp"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="16dp"
             android:visibility="gone">
 
             <!-- Events Team 1 -->
@@ -146,7 +183,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="end"
-                android:paddingEnd="8dp" />
+                android:paddingEnd="12dp" />
 
             <!-- Separator -->
             <View
@@ -162,8 +199,15 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="start"
-                android:paddingStart="8dp" />
+                android:paddingStart="12dp" />
         </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F0F0F0"
+            android:layout_marginHorizontal="16dp" />
 
         <!-- Footer: Date, Time, Location -->
         <LinearLayout
@@ -171,30 +215,59 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingHorizontal="16dp"
-            android:paddingBottom="12dp"
-            android:gravity="center_vertical">
+            android:paddingVertical="12dp"
+            android:gravity="center_vertical"
+            android:background="#FAFAFA">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                
-                <TextView
-                    android:id="@+id/tvMatchDateTime"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="📅 01/01/2026 - 15:30"
-                    android:textSize="12sp"
-                    android:textColor="@color/text_secondary" />
-                
-                <TextView
-                    android:id="@+id/tvMatchLocation"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@android:drawable/ic_menu_today"
+                        app:tint="@color/text_secondary" />
+                        
+                    <TextView
+                        android:id="@+id/tvMatchDateTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="01/01/2026 - 15:30"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginStart="6dp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="📍 Sân thi đấu"
-                    android:textSize="12sp"
-                    android:textColor="@color/text_secondary"
-                    android:layout_marginTop="2dp" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp">
+                    
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@android:drawable/ic_menu_mylocation"
+                        app:tint="@color/text_secondary" />
+                        
+                    <TextView
+                        android:id="@+id/tvMatchLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sân thi đấu"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginStart="6dp" />
+                </LinearLayout>
             </LinearLayout>
 
             <Space
@@ -207,9 +280,246 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vòng bảng"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="#8E24AA" />
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/green_primary" />
+        </LinearLayout>
+
+        <!-- ══ AI Prediction: thanh ngang tỷ lệ W/D/L ══ -->
+        <LinearLayout
+            android:id="@+id/layoutAiPrediction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:background="#F1F8E9"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp">
+
+            <!-- Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@android:drawable/ic_menu_manage"
+                    app:tint="@color/green_dark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AI Dự đoán"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/green_dark"
+                    android:layout_marginStart="4dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="#C8E6C9" />
+
+                <TextView
+                    android:id="@+id/tvAiHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nhấn giữ để xem chi tiết"
+                    android:textSize="10sp"
+                    android:textColor="@color/green_primary"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
+            <!-- Thanh dự đoán Đội 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp">
+
+                <TextView
+                    android:id="@+id/tvAiTeam1Name"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="Đội 1"
+                    android:textSize="11sp"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginEnd="8dp"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="18dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="9dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+                    
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:id="@+id/tvAiT1WinBar"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="33"
+                            android:background="#4CAF50"
+                            android:gravity="center"
+                            android:text="33%"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:id="@+id/tvAiT1DrawBar"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="34"
+                            android:background="#9E9E9E"
+                            android:gravity="center"
+                            android:text="34%"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:id="@+id/tvAiT1LoseBar"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="33"
+                            android:background="#F44336"
+                            android:gravity="center"
+                            android:text="33%"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Thanh dự đoán Đội 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp">
+
+                <TextView
+                    android:id="@+id/tvAiTeam2Name"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="Đội 2"
+                    android:textSize="11sp"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginEnd="8dp"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="18dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="9dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+                    
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:id="@+id/tvAiT2WinBar"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="33"
+                            android:background="#4CAF50"
+                            android:gravity="center"
+                            android:text="33%"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:id="@+id/tvAiT2DrawBar"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="34"
+                            android:background="#9E9E9E"
+                            android:gravity="center"
+                            android:text="34%"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:id="@+id/tvAiT2LoseBar"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="33"
+                            android:background="#F44336"
+                            android:gravity="center"
+                            android:text="33%"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Chú thích -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:paddingStart="88dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Thắng"
+                    android:textSize="10sp"
+                    android:textColor="#388E3C"
+                    android:gravity="start" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Hòa"
+                    android:textSize="10sp"
+                    android:textColor="#757575"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Thua"
+                    android:textSize="10sp"
+                    android:textColor="#D32F2F"
+                    android:gravity="end" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

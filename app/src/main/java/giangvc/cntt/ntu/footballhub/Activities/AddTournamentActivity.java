@@ -293,7 +293,7 @@ public class AddTournamentActivity extends AppCompatActivity {
                 .set(t)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this,
-                            "✅ Đã tạo giải \"" + name + "\"",
+                            "Đã tạo giải \"" + name + "\"",
                             Toast.LENGTH_SHORT).show();
                     
                     if (Tournament.FORMAT_KNOCKOUT.equals(selectedFormat)) {
@@ -305,7 +305,7 @@ public class AddTournamentActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     btnSaveTournament.setEnabled(true);
-                    btnSaveTournament.setText("✔  Tạo Giải Đấu");
+                    btnSaveTournament.setText("Tạo Giải Đấu");
                 });
     }
 

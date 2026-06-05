@@ -173,7 +173,7 @@ public class TournamentDetailActivity extends AppCompatActivity {
         // Header
         tvHeaderName.setText(name);
         tvHeaderFormat.setText(Tournament.FORMAT_KNOCKOUT.equals(format)
-                ? "🥊 Đá loại trực tiếp" : "🔄 Đá vòng bảng");
+                ? "Đá loại trực tiếp" : "Đá vòng bảng");
 
         // Format label trạng thái
         Tournament tmp = new Tournament();
@@ -231,18 +231,18 @@ public class TournamentDetailActivity extends AppCompatActivity {
         db.collection(COLLECTION).document(tournamentId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "✅ Đã cập nhật giải \"" + newName + "\"", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Đã cập nhật giải \"" + newName + "\"", Toast.LENGTH_SHORT).show();
                     tvHeaderName.setText(newName);
                     Tournament tmp = new Tournament();
                     tmp.setStatus(selectedStatus);
                     tvHeaderStatus.setText(tmp.getStatusLabel());
                     btnUpdateTournament.setEnabled(true);
-                    btnUpdateTournament.setText("💾  Lưu thay đổi");
+                    btnUpdateTournament.setText("Lưu thay đổi");
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     btnUpdateTournament.setEnabled(true);
-                    btnUpdateTournament.setText("💾  Lưu thay đổi");
+                    btnUpdateTournament.setText("Lưu thay đổi");
                 });
     }
 
@@ -268,7 +268,7 @@ public class TournamentDetailActivity extends AppCompatActivity {
                                             batch.commit();
                                         });
 
-                                Toast.makeText(this, "🗑️ Đã xóa giải \"" + name + "\" và các lịch thi đấu liên quan", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Đã xóa giải \"" + name + "\" và các lịch thi đấu liên quan", Toast.LENGTH_SHORT).show();
                                 finish();
                             })
                             .addOnFailureListener(e ->

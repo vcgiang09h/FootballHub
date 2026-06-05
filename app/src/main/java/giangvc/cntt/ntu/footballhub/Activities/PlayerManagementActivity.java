@@ -26,44 +26,35 @@ import giangvc.cntt.ntu.footballhub.Adapters.PlayerAdapter;
 import giangvc.cntt.ntu.footballhub.Models.Player;
 import giangvc.cntt.ntu.footballhub.R;
 
-/**
- * PlayerManagementActivity — Danh sách cầu thủ theo đội (Full CRUD)
- *
- * Nhận teamId + teamName từ Intent.
- * - READ   : Real-time listener Firestore, lọc theo teamId
- * - CREATE : FAB → AddPlayerActivity
- * - UPDATE : Click item → PlayerDetailActivity
- * - DELETE : Long-click item → Dialog xác nhận
- */
 public class PlayerManagementActivity extends AppCompatActivity {
 
-    public static final String EXTRA_TEAM_ID   = "TEAM_ID";
+    public static final String EXTRA_TEAM_ID = "TEAM_ID";
     public static final String EXTRA_TEAM_NAME = "TEAM_NAME";
 
     private static final String TAG = "PlayerMgmt";
     private static final String COLLECTION = "Players";
 
     // ── Views ──────────────────────────────────────────────────────────────────
-    private RecyclerView                rvPlayers;
+    private RecyclerView rvPlayers;
     private ExtendedFloatingActionButton fabAddPlayer;
-    private View                        layoutEmpty;
-    private TextView                    tvPlayerCount;
-    private TextView                    tvTeamNameHeader;
+    private View layoutEmpty;
+    private TextView tvPlayerCount;
+    private TextView tvTeamNameHeader;
 
     // ── Data ───────────────────────────────────────────────────────────────────
     private PlayerAdapter playerAdapter;
-    private List<Player>  playerList;
-    private String        teamId;
-    private String        teamName;
-    private String        teamClass;
-    private String        captainName;
-    private String        captainClass;
-    private String        captainStudentId;
-    private String        captainPhone;
-    private String        captainEmail;
+    private List<Player> playerList;
+    private String teamId;
+    private String teamName;
+    private String teamClass;
+    private String captainName;
+    private String captainClass;
+    private String captainStudentId;
+    private String captainPhone;
+    private String captainEmail;
 
     // ── Firebase ───────────────────────────────────────────────────────────────
-    private FirebaseFirestore    db;
+    private FirebaseFirestore db;
     private ListenerRegistration listenerRegistration;
 
     // ──────────────────────────────────────────────────────────────────────────
@@ -74,7 +65,7 @@ public class PlayerManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player_management);
 
         // Nhận data từ Intent
-        teamId   = getIntent().getStringExtra(EXTRA_TEAM_ID);
+        teamId = getIntent().getStringExtra(EXTRA_TEAM_ID);
         teamName = getIntent().getStringExtra(EXTRA_TEAM_NAME);
         teamClass = getIntent().getStringExtra("TEAM_CLASS");
         captainName = getIntent().getStringExtra("CAPTAIN_NAME");
@@ -93,16 +84,17 @@ public class PlayerManagementActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        rvPlayers        = findViewById(R.id.rvPlayers);
-        fabAddPlayer     = findViewById(R.id.fabAddPlayer);
-        layoutEmpty      = findViewById(R.id.layoutEmpty);
-        tvPlayerCount    = findViewById(R.id.tvPlayerCount);
+        rvPlayers = findViewById(R.id.rvPlayers);
+        fabAddPlayer = findViewById(R.id.fabAddPlayer);
+        layoutEmpty = findViewById(R.id.layoutEmpty);
+        tvPlayerCount = findViewById(R.id.tvPlayerCount);
         tvTeamNameHeader = findViewById(R.id.tvTeamNameHeader);
-        TextView btnEditTeam = findViewById(R.id.btnEditTeam);
+        android.widget.ImageView btnEditTeam = findViewById(R.id.btnEditTeam);
 
         // Set team name trong header
-        if (teamName != null) tvTeamNameHeader.setText(teamName);
-        
+        if (teamName != null)
+            tvTeamNameHeader.setText(teamName);
+
         // Nút sửa đội bóng
         btnEditTeam.setOnClickListener(v -> {
             Intent intent = new Intent(this, TeamDetailActivity.class);
@@ -118,7 +110,7 @@ public class PlayerManagementActivity extends AppCompatActivity {
         });
 
         // RecyclerView
-        playerList    = new ArrayList<>();
+        playerList = new ArrayList<>();
         playerAdapter = new PlayerAdapter(playerList);
         rvPlayers.setLayoutManager(new LinearLayoutManager(this));
         rvPlayers.setAdapter(playerAdapter);
@@ -127,23 +119,25 @@ public class PlayerManagementActivity extends AppCompatActivity {
         rvPlayers.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView rv, int dx, int dy) {
-                if (dy > 0) fabAddPlayer.shrink();
-                else        fabAddPlayer.extend();
+                if (dy > 0)
+                    fabAddPlayer.shrink();
+                else
+                    fabAddPlayer.extend();
             }
         });
 
         // Click → PlayerDetailActivity (Update/Delete)
         playerAdapter.setOnPlayerClickListener(player -> {
             Intent intent = new Intent(this, PlayerDetailActivity.class);
-            intent.putExtra(PlayerDetailActivity.EXTRA_PLAYER_ID,   player.getPlayerId());
+            intent.putExtra(PlayerDetailActivity.EXTRA_PLAYER_ID, player.getPlayerId());
             intent.putExtra(PlayerDetailActivity.EXTRA_PLAYER_NAME, player.getPlayerName());
-            intent.putExtra(PlayerDetailActivity.EXTRA_TEAM_ID,     player.getTeamId());
+            intent.putExtra(PlayerDetailActivity.EXTRA_TEAM_ID, player.getTeamId());
             intent.putExtra(PlayerDetailActivity.EXTRA_PLAYER_CLASS, player.getPlayerClass());
-            intent.putExtra(PlayerDetailActivity.EXTRA_STUDENT_ID,  player.getStudentId());
-            intent.putExtra(PlayerDetailActivity.EXTRA_PHONE,       player.getPhone());
-            intent.putExtra(PlayerDetailActivity.EXTRA_EMAIL,       player.getEmail());
+            intent.putExtra(PlayerDetailActivity.EXTRA_STUDENT_ID, player.getStudentId());
+            intent.putExtra(PlayerDetailActivity.EXTRA_PHONE, player.getPhone());
+            intent.putExtra(PlayerDetailActivity.EXTRA_EMAIL, player.getEmail());
             intent.putExtra(PlayerDetailActivity.EXTRA_JERSEY_NUMBER, player.getJerseyNumber());
-            intent.putExtra(PlayerDetailActivity.EXTRA_POSITION,    player.getPosition());
+            intent.putExtra(PlayerDetailActivity.EXTRA_POSITION, player.getPosition());
             startActivity(intent);
         });
 
@@ -152,7 +146,7 @@ public class PlayerManagementActivity extends AppCompatActivity {
 
         fabAddPlayer.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddPlayerActivity.class);
-            intent.putExtra(AddPlayerActivity.EXTRA_TEAM_ID,   teamId);
+            intent.putExtra(AddPlayerActivity.EXTRA_TEAM_ID, teamId);
             intent.putExtra(AddPlayerActivity.EXTRA_TEAM_NAME, teamName);
             startActivity(intent);
         });
@@ -168,7 +162,8 @@ public class PlayerManagementActivity extends AppCompatActivity {
 
     /** Real-time listener — lọc cầu thủ theo teamId */
     private void listenToPlayers() {
-        if (teamId == null) return;
+        if (teamId == null)
+            return;
 
         listenerRegistration = db.collection(COLLECTION)
                 .whereEqualTo("teamId", teamId)
@@ -179,12 +174,14 @@ public class PlayerManagementActivity extends AppCompatActivity {
                         Toast.makeText(this, "Không tải được danh sách cầu thủ.", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if (snapshots == null) return;
+                    if (snapshots == null)
+                        return;
 
                     playerList.clear();
                     for (DocumentSnapshot doc : snapshots.getDocuments()) {
                         Player player = doc.toObject(Player.class);
-                        if (player != null) playerList.add(player);
+                        if (player != null)
+                            playerList.add(player);
                     }
 
                     // Sắp xếp theo tên
@@ -207,14 +204,11 @@ public class PlayerManagementActivity extends AppCompatActivity {
                 .setPositiveButton("Xóa", (dialog, which) -> {
                     db.collection(COLLECTION).document(player.getPlayerId())
                             .delete()
-                            .addOnSuccessListener(aVoid ->
-                                    Toast.makeText(this,
-                                            "🗑️ Đã xóa \"" + player.getPlayerName() + "\"",
-                                            Toast.LENGTH_SHORT).show()
-                            )
-                            .addOnFailureListener(e ->
-                                    Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                            );
+                            .addOnSuccessListener(aVoid -> Toast.makeText(this,
+                                    "Đã xóa \"" + player.getPlayerName() + "\"",
+                                    Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(
+                                    e -> Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show());
                 })
                 .setNegativeButton("Hủy", null)
                 .show();
@@ -241,7 +235,8 @@ public class PlayerManagementActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (listenerRegistration != null) listenerRegistration.remove();
+        if (listenerRegistration != null)
+            listenerRegistration.remove();
     }
 
     @Override

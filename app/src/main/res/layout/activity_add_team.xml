@@ -24,11 +24,11 @@
         android:paddingTop="48dp"
         android:paddingBottom="32dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🏆"
-            android:textSize="40sp" />
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_myplaces"
+            app:tint="@color/text_on_dark" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -320,7 +320,9 @@
                 android:id="@+id/btnSaveTeam"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="✔  Lưu Đội Bóng"
+                android:text="Lưu Đội Bóng"
+                app:icon="@android:drawable/ic_menu_save"
+                app:iconTint="@color/text_on_dark"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_on_dark"

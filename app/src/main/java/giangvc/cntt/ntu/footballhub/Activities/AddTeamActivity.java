@@ -88,13 +88,13 @@ public class AddTeamActivity extends AppCompatActivity {
                 .document(teamId)
                 .set(newTeam)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "✅ Đã thêm đội \"" + teamName + "\"", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Đã thêm đội \"" + teamName + "\"", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     btnSaveTeam.setEnabled(true);
-                    btnSaveTeam.setText("✔  Lưu Đội Bóng");
+                    btnSaveTeam.setText("Lưu Đội Bóng");
                 });
     }
 

@@ -38,6 +38,11 @@ public class StatisticsActivity extends AppCompatActivity {
     private LinearLayout layoutTopScorers;
     private LinearLayout layoutCardStats;
 
+    // Tổng quan giải đấu
+    private TextView tvTotalTeams;
+    private TextView tvTotalPlayers;
+    private LinearLayout layoutCohortStats;
+
     private FirebaseFirestore db;
     private List<Tournament> tournamentList = new ArrayList<>();
     private List<String> tournamentNames = new ArrayList<>();
@@ -62,6 +67,10 @@ public class StatisticsActivity extends AppCompatActivity {
         layoutTopGoalkeepers = findViewById(R.id.layoutTopGoalkeepers);
         layoutTopScorers = findViewById(R.id.layoutTopScorers);
         layoutCardStats = findViewById(R.id.layoutCardStats);
+
+        tvTotalTeams = findViewById(R.id.tvTotalTeams);
+        tvTotalPlayers = findViewById(R.id.tvTotalPlayers);
+        layoutCohortStats = findViewById(R.id.layoutCohortStats);
 
         db = FirebaseFirestore.getInstance();
 
@@ -115,14 +124,11 @@ public class StatisticsActivity extends AppCompatActivity {
                         matches.add(doc.toObject(Match.class));
                     }
                     
-                    if (matches.isEmpty()) {
-                        tvEmptyState.setVisibility(View.VISIBLE);
-                        tvEmptyState.setText("Chưa có trận đấu nào kết thúc trong giải này.");
-                        return;
-                    }
-                    
                     layoutStatsContent.setVisibility(View.VISIBLE);
                     
+                    // -1. Calculate Overview
+                    calculateOverview(tournament);
+
                     // 0. Calculate Championship
                     calculateChampionship(matches);
                     
@@ -137,48 +143,95 @@ public class StatisticsActivity extends AppCompatActivity {
                 });
     }
 
+    private void calculateOverview(Tournament tournament) {
+        int numTeams = tournament.getTeamIds() != null ? tournament.getTeamIds().size() : 0;
+        tvTotalTeams.setText("Số lượng đội tham gia: " + numTeams);
+
+        if (tournament.getTeamIds() == null || tournament.getTeamIds().isEmpty()) {
+            tvTotalPlayers.setText("Số lượng VĐV tham gia: 0");
+            layoutCohortStats.removeAllViews();
+            return;
+        }
+
+        db.collection("Players").get().addOnSuccessListener(snapshots -> {
+            int totalPlayers = 0;
+            Map<String, Integer> cohortCount = new HashMap<>();
+
+            for (QueryDocumentSnapshot doc : snapshots) {
+                Player p = doc.toObject(Player.class);
+                if (p.getTeamId() != null && tournament.getTeamIds().contains(p.getTeamId())) {
+                    totalPlayers++;
+                    
+                    String chiDoan = p.getPlayerClass();
+                    if (chiDoan != null && chiDoan.length() >= 2) {
+                        String cohortStr = chiDoan.substring(0, 2);
+                        try {
+                            int k = Integer.parseInt(cohortStr);
+                            String cohort = "K" + k;
+                            cohortCount.put(cohort, cohortCount.getOrDefault(cohort, 0) + 1);
+                        } catch (Exception ignored) {}
+                    }
+                }
+            }
+
+            tvTotalPlayers.setText("Số lượng VĐV tham gia: " + totalPlayers);
+            layoutCohortStats.removeAllViews();
+
+            List<String> cohorts = new ArrayList<>(cohortCount.keySet());
+            Collections.sort(cohorts);
+
+            for (String cohort : cohorts) {
+                TextView tv = new TextView(this);
+                tv.setText("• " + cohort + ": " + cohortCount.get(cohort) + " sinh viên");
+                tv.setTextSize(14);
+                tv.setTextColor(android.graphics.Color.parseColor("#3949AB"));
+                layoutCohortStats.addView(tv);
+            }
+        });
+    }
+
     private void calculateChampionship(List<Match> matches) {
-        tvChampion.setText("🥇 Vô địch: Chưa xác định");
-        tvRunnerUp.setText("🥈 Á quân: Chưa xác định");
-        tvThirdPlace.setText("🥉 Hạng 3: Chưa xác định");
+        tvChampion.setText("Vô địch: Chưa xác định");
+        tvRunnerUp.setText("Á quân: Chưa xác định");
+        tvThirdPlace.setText("Hạng 3: Chưa xác định");
 
         for (Match match : matches) {
             if (match.getRound() == null) continue;
             
             if (match.getRound().contains("Chung kết")) {
                 if (match.getScoreTeam1() > match.getScoreTeam2()) {
-                    tvChampion.setText("🥇 Vô địch: " + match.getTeam1Name());
-                    tvRunnerUp.setText("🥈 Á quân: " + match.getTeam2Name());
+                    tvChampion.setText("Vô địch: " + match.getTeam1Name());
+                    tvRunnerUp.setText("Á quân: " + match.getTeam2Name());
                 } else if (match.getScoreTeam1() < match.getScoreTeam2()) {
-                    tvChampion.setText("🥇 Vô địch: " + match.getTeam2Name());
-                    tvRunnerUp.setText("🥈 Á quân: " + match.getTeam1Name());
+                    tvChampion.setText("Vô địch: " + match.getTeam2Name());
+                    tvRunnerUp.setText("Á quân: " + match.getTeam1Name());
                 } else if (match.getPenaltyTeam1() != null && match.getPenaltyTeam2() != null && !match.getPenaltyTeam1().equals(match.getPenaltyTeam2())) {
                     if (match.getPenaltyTeam1() > match.getPenaltyTeam2()) {
-                        tvChampion.setText("🥇 Vô địch: " + match.getTeam1Name());
-                        tvRunnerUp.setText("🥈 Á quân: " + match.getTeam2Name());
+                        tvChampion.setText("Vô địch: " + match.getTeam1Name());
+                        tvRunnerUp.setText("Á quân: " + match.getTeam2Name());
                     } else {
-                        tvChampion.setText("🥇 Vô địch: " + match.getTeam2Name());
-                        tvRunnerUp.setText("🥈 Á quân: " + match.getTeam1Name());
+                        tvChampion.setText("Vô địch: " + match.getTeam2Name());
+                        tvRunnerUp.setText("Á quân: " + match.getTeam1Name());
                     }
                 } else {
-                    tvChampion.setText("🥇 Vô địch: Chưa phân định (Hòa)");
-                    tvRunnerUp.setText("🥈 Á quân: Chưa phân định (Hòa)");
+                    tvChampion.setText("Vô địch: Chưa phân định (Hòa)");
+                    tvRunnerUp.setText("Á quân: Chưa phân định (Hòa)");
                 }
             }
             
             if (match.getRound().contains("Tranh hạng 3")) {
                 if (match.getScoreTeam1() > match.getScoreTeam2()) {
-                    tvThirdPlace.setText("🥉 Hạng 3: " + match.getTeam1Name());
+                    tvThirdPlace.setText("Hạng 3: " + match.getTeam1Name());
                 } else if (match.getScoreTeam1() < match.getScoreTeam2()) {
-                    tvThirdPlace.setText("🥉 Hạng 3: " + match.getTeam2Name());
+                    tvThirdPlace.setText("Hạng 3: " + match.getTeam2Name());
                 } else if (match.getPenaltyTeam1() != null && match.getPenaltyTeam2() != null && !match.getPenaltyTeam1().equals(match.getPenaltyTeam2())) {
                     if (match.getPenaltyTeam1() > match.getPenaltyTeam2()) {
-                        tvThirdPlace.setText("🥉 Hạng 3: " + match.getTeam1Name());
+                        tvThirdPlace.setText("Hạng 3: " + match.getTeam1Name());
                     } else {
-                        tvThirdPlace.setText("🥉 Hạng 3: " + match.getTeam2Name());
+                        tvThirdPlace.setText("Hạng 3: " + match.getTeam2Name());
                     }
                 } else {
-                    tvThirdPlace.setText("🥉 Hạng 3: Chưa phân định (Hòa)");
+                    tvThirdPlace.setText("Hạng 3: Chưa phân định (Hòa)");
                 }
             }
         }
@@ -220,6 +273,11 @@ public class StatisticsActivity extends AppCompatActivity {
             if (match.getEvents() != null) {
                 for (MatchEvent event : match.getEvents()) {
                     if (MatchEvent.TYPE_GOAL.equals(event.getType()) && event.getPlayerId() != null && !event.getPlayerId().isEmpty()) {
+                        // Chỉ tính các cầu thủ thuộc đội vào bán kết
+                        if (event.getTeamId() == null || !semiFinalTeams.contains(event.getTeamId())) {
+                            continue;
+                        }
+
                         String pId = event.getPlayerId();
                         if (!scorerMap.containsKey(pId)) {
                             scorerMap.put(pId, new PlayerStat(pId, event.getPlayerName(), event.getTeamId(), event.getTeamName(), 0));
@@ -261,16 +319,12 @@ public class StatisticsActivity extends AppCompatActivity {
             
             TextView tvName = new TextView(this);
             if (i == 0) {
-                tvName.setText(ps.playerName + " 👟");
+                tvName.setText(ps.playerName);
             } else {
                 tvName.setText(ps.playerName);
             }
             tvName.setTextSize(16);
-            if (ps.teamId != null && semiFinalTeams.contains(ps.teamId)) {
-                tvName.setTextColor(android.graphics.Color.RED);
-            } else {
-                tvName.setTextColor(getResources().getColor(android.R.color.black));
-            }
+            tvName.setTextColor(getResources().getColor(android.R.color.black));
             
             TextView tvTeam = new TextView(this);
             tvTeam.setText(ps.teamName);
@@ -281,7 +335,7 @@ public class StatisticsActivity extends AppCompatActivity {
             nameLayout.addView(tvTeam);
             
             TextView tvGoals = new TextView(this);
-            tvGoals.setText(ps.count + " ⚽");
+            tvGoals.setText(ps.count + " bàn");
             tvGoals.setTextSize(16);
             tvGoals.setTypeface(null, android.graphics.Typeface.BOLD);
             tvGoals.setTextColor(android.graphics.Color.parseColor("#2E7D32"));
@@ -375,7 +429,7 @@ public class StatisticsActivity extends AppCompatActivity {
                         
                         TextView tvName = new TextView(this);
                         if (i == 0) {
-                            tvName.setText(gk.playerName + " 🧤");
+                            tvName.setText(gk.playerName);
                         } else {
                             tvName.setText(gk.playerName);
                         }
@@ -467,14 +521,14 @@ public class StatisticsActivity extends AppCompatActivity {
             tvName.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
             
             TextView tvYellow = new TextView(this);
-            tvYellow.setText(stat.yellowCards + " 🟨");
+            tvYellow.setText(stat.yellowCards + " thẻ");
             tvYellow.setTextSize(16);
             tvYellow.setTypeface(null, android.graphics.Typeface.BOLD);
             tvYellow.setTextColor(android.graphics.Color.parseColor("#F9A825"));
             tvYellow.setPadding(0, 0, 16, 0);
             
             TextView tvRed = new TextView(this);
-            tvRed.setText(stat.redCards + " 🟥");
+            tvRed.setText(stat.redCards + " thẻ");
             tvRed.setTextSize(16);
             tvRed.setTypeface(null, android.graphics.Typeface.BOLD);
             tvRed.setTextColor(android.graphics.Color.parseColor("#D32F2F"));

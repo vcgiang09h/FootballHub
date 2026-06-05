@@ -191,7 +191,7 @@ public class PlayerDetailActivity extends AppCompatActivity {
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this,
-                            "✅ Đã cập nhật cầu thủ \"" + newName + "\"",
+                            "Đã cập nhật cầu thủ \"" + newName + "\"",
                             Toast.LENGTH_SHORT).show();
 
                     // Cập nhật header
@@ -202,12 +202,12 @@ public class PlayerDetailActivity extends AppCompatActivity {
                     tvDetailStudentId.setText("MSSV: " + newStudentId);
 
                     btnUpdatePlayer.setEnabled(true);
-                    btnUpdatePlayer.setText("💾  Lưu thay đổi");
+                    btnUpdatePlayer.setText("Lưu thay đổi");
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     btnUpdatePlayer.setEnabled(true);
-                    btnUpdatePlayer.setText("💾  Lưu thay đổi");
+                    btnUpdatePlayer.setText("Lưu thay đổi");
                 });
     }
 
@@ -234,14 +234,14 @@ public class PlayerDetailActivity extends AppCompatActivity {
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this,
-                            "🗑️ Đã xóa cầu thủ \"" + name + "\"",
+                            "Đã xóa cầu thủ \"" + name + "\"",
                             Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     btnDeletePlayer.setEnabled(true);
-                    btnDeletePlayer.setText("🗑️  Xóa cầu thủ");
+                    btnDeletePlayer.setText("Xóa cầu thủ");
                 });
     }
 

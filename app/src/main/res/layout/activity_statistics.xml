@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA">
+    android:background="@color/screen_bg">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -20,26 +20,29 @@
             android:paddingBottom="24dp"
             app:layout_scrollFlags="scroll|enterAlways">
 
+            <!-- Decorative elements -->
+
+
             <!-- Decorative circle top-right -->
             <View
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="-40dp"
-                android:layout_marginEnd="-40dp"
-                android:alpha="0.05"
+                android:layout_marginTop="-60dp"
+                android:layout_marginEnd="-60dp"
+                android:alpha="0.08"
                 android:background="@drawable/bg_avatar_circle" />
 
             <!-- Decorative circle bottom-left -->
             <View
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="-30dp"
-                android:layout_marginBottom="-30dp"
-                android:alpha="0.03"
+                android:layout_marginStart="-40dp"
+                android:layout_marginBottom="-20dp"
+                android:alpha="0.05"
                 android:background="@drawable/bg_avatar_circle" />
 
             <androidx.appcompat.widget.Toolbar
@@ -55,45 +58,53 @@
                 android:layout_below="@id/toolbar"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:paddingTop="8dp">
+                android:paddingStart="28dp"
+                android:paddingEnd="28dp"
+                android:paddingTop="12dp">
 
-                <FrameLayout
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:background="@drawable/bg_avatar_circle"
-                    android:backgroundTint="#33FFFFFF">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="#33FFFFFF"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#4DFFFFFF">
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_gravity="center"
-                        android:text="📊"
-                        android:textSize="28sp" />
-                </FrameLayout>
+                        android:src="@android:drawable/ic_menu_sort_by_size"
+                        app:tint="#FFFFFF" />
+                </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingStart="16dp">
+                    android:paddingStart="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Thống kê giải đấu"
-                        android:textSize="22sp"
+                        android:textSize="26sp"
                         android:textStyle="bold"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#FFFFFF"
+                        android:shadowColor="#40000000"
+                        android:shadowDx="1"
+                        android:shadowDy="2"
+                        android:shadowRadius="3" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Theo dõi thành tích và dữ liệu chi tiết"
-                        android:textColor="#E8F5E9"
-                        android:textSize="14sp"
-                        android:layout_marginTop="4dp" />
+                        android:text="Theo dõi thành tích và dữ liệu"
+                        android:textColor="#F5F5F5"
+                        android:textSize="15sp"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -139,88 +150,177 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Chưa có dữ liệu thống kê cho giải đấu này."
-                android:textSize="15sp"
-                android:textColor="#9E9E9E"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/text_secondary"
                 android:gravity="center"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:visibility="gone" />
 
-            <LinearLayout
+                <LinearLayout
                 android:id="@+id/layoutStatsContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <!-- Bảng Vàng (Vô địch, Á quân, Hạng 3) -->
+                <!-- Tổng quan giải đấu -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="#FFF3E0"
-                    android:layout_marginBottom="16dp">
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="#E8EAF6"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#C5CAE9"
+                    android:layout_marginBottom="20dp">
                     
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="20dp">
+                        
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="16dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@android:drawable/ic_menu_info_details"
+                                app:tint="#283593"
+                                android:layout_marginEnd="8dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tổng quan Giải đấu"
+                                android:textSize="16sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="#283593" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvTotalTeams"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Số lượng đội tham gia: 0"
+                            android:textSize="15sp"
+                            android:textColor="#303F9F"
+                            android:fontFamily="sans-serif-medium"
+                            android:layout_marginBottom="6dp"/>
+
+                        <TextView
+                            android:id="@+id/tvTotalPlayers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Số lượng VĐV tham gia: 0"
+                            android:textSize="15sp"
+                            android:textColor="#303F9F"
+                            android:fontFamily="sans-serif-medium"
+                            android:layout_marginBottom="12dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Phân bổ sinh viên theo khóa:"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="#5C6BC0"
+                            android:layout_marginBottom="8dp"/>
+
+                        <LinearLayout
+                            android:id="@+id/layoutCohortStats"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Bảng Vàng (Vô địch, Á quân, Hạng 3) -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="#FFF3E0"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#FFE0B2"
+                    android:layout_marginBottom="20dp">
+                    
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
                         
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="🏆"
-                                android:textSize="24sp"
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#EF6C00"
                                 android:layout_marginEnd="12dp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Bảng Vàng Giải Đấu"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
-                                android:textColor="#1B2A1D" />
+                                android:textSize="16sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="#EF6C00" />
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="#FFE0B2"
-                            android:layout_marginVertical="12dp" />
+                            android:layout_marginVertical="16dp" />
                             
                         <TextView
                             android:id="@+id/tvChampion"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="🥇 Vô địch: Chưa xác định"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
+                            android:text="Vô địch: Chưa xác định"
+                            android:textSize="16sp"
+                            android:fontFamily="sans-serif-medium"
                             android:textColor="#E65100"
-                            android:layout_marginBottom="8dp" />
+                            android:layout_marginBottom="12dp"
+                            app:drawableStartCompat="@android:drawable/btn_star_big_on"
+                            app:drawableTint="#E65100"
+                            android:drawablePadding="8dp" />
                             
                         <TextView
                             android:id="@+id/tvRunnerUp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="🥈 Á quân: Chưa xác định"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
+                            android:text="Á quân: Chưa xác định"
+                            android:textSize="16sp"
+                            android:fontFamily="sans-serif-medium"
                             android:textColor="#616161"
-                            android:layout_marginBottom="8dp" />
+                            android:layout_marginBottom="12dp"
+                            app:drawableStartCompat="@android:drawable/btn_star_big_on"
+                            app:drawableTint="#9E9E9E"
+                            android:drawablePadding="8dp" />
                             
                         <TextView
                             android:id="@+id/tvThirdPlace"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="🥉 Hạng 3: Chưa xác định"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:textColor="#5D4037" />
+                            android:text="Hạng 3: Chưa xác định"
+                            android:textSize="16sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="#5D4037"
+                            app:drawableStartCompat="@android:drawable/btn_star_big_on"
+                            app:drawableTint="#8D6E63"
+                            android:drawablePadding="8dp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -228,36 +328,38 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
                     app:cardBackgroundColor="#E8F5E9"
-                    android:layout_marginBottom="16dp">
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#C8E6C9"
+                    android:layout_marginBottom="20dp">
                     
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="20dp">
                         
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:layout_marginBottom="12dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="⚽"
-                                android:textSize="20sp"
+                            android:layout_marginBottom="16dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@android:drawable/ic_menu_myplaces"
+                                app:tint="#2E7D32"
                                 android:layout_marginEnd="8dp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Top 10 Cầu thủ ghi bàn tốt nhất"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textColor="#1B2A1D" />
+                                android:textSize="15sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="#2E7D32" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -273,36 +375,38 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
                     app:cardBackgroundColor="#E3F2FD"
-                    android:layout_marginBottom="16dp">
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#BBDEFB"
+                    android:layout_marginBottom="20dp">
                     
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="20dp">
                         
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:layout_marginBottom="12dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="🧤"
-                                android:textSize="20sp"
+                            android:layout_marginBottom="16dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@android:drawable/ic_menu_agenda"
+                                app:tint="#1565C0"
                                 android:layout_marginEnd="8dp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Top 4 Thủ môn xuất sắc nhất"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textColor="#1B2A1D" />
+                                android:textSize="15sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="#1565C0" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -318,35 +422,37 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="#FFEBEE">
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="#FFEBEE"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#FFCDD2">
                     
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="20dp">
                         
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:layout_marginBottom="12dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="🟨"
-                                android:textSize="20sp"
+                            android:layout_marginBottom="16dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                                app:tint="#C62828"
                                 android:layout_marginEnd="8dp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Thống kê Thẻ phạt Đội bóng"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textColor="#1B2A1D" />
+                                android:textSize="15sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="#C62828" />
                         </LinearLayout>
 
                         <LinearLayout

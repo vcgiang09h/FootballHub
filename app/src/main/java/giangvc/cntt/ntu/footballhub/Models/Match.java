@@ -20,6 +20,7 @@ public class Match {
     private long matchOrder;
     private Integer penaltyTeam1;
     private Integer penaltyTeam2;
+    private String aiPrediction; // Dự đoán AI, lưu Firestore, hiển thị công khai
 
     public static final String STATUS_UPCOMING = "Sắp diễn ra";
     public static final String STATUS_ONGOING  = "Đang diễn ra";
@@ -115,4 +116,7 @@ public class Match {
 
     public Integer getPenaltyTeam2() { return penaltyTeam2; }
     public void setPenaltyTeam2(Integer penaltyTeam2) { this.penaltyTeam2 = penaltyTeam2; }
+
+    public String getAiPrediction() { return aiPrediction; }
+    public void setAiPrediction(String aiPrediction) { this.aiPrediction = aiPrediction; }
 }
