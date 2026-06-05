@@ -45,7 +45,7 @@ public class MatchScheduleActivity extends AppCompatActivity {
 
     private static final String TAG = "MatchScheduleActivity";
     private static final String COLLECTION = "Matches";
-    private static final String GROQ_API_KEY = "";
+    private static final String GROQ_API_KEY = giangvc.cntt.ntu.footballhub.BuildConfig.GROQ_API_KEY;
 
     private RecyclerView rvMatches;
     private ExtendedFloatingActionButton fabAddMatch;

@@ -74,8 +74,8 @@ public class MatchDetailActivity extends AppCompatActivity {
     private TextView tvAiSummary;
 
     private ActivityResultLauncher<Intent> imagePickerLauncher;
-    private static final String GROQ_API_KEY = "";
-    private static final String GEMINI_API_KEY = ""; // Thay API Key vào đây
+    private static final String GROQ_API_KEY = giangvc.cntt.ntu.footballhub.BuildConfig.GROQ_API_KEY;
+    private static final String GEMINI_API_KEY = giangvc.cntt.ntu.footballhub.BuildConfig.GEMINI_API_KEY; // Thay API Key vào đây
 
     private FirebaseFirestore db;
     private String[] statusValues = { Match.STATUS_UPCOMING, Match.STATUS_ONGOING, Match.STATUS_FINISHED };

@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class AiHelper {
-    public static final String GROQ_API_KEY = "";
+    public static final String GROQ_API_KEY = giangvc.cntt.ntu.footballhub.BuildConfig.GROQ_API_KEY;
 
     public interface OnEventsExtractedListener {
         void onEventsExtracted(JSONArray eventsArray);
